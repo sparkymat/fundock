@@ -20,21 +20,16 @@ func (s *Service) FetchFunctions(ctx context.Context, query string, pageSize uin
 	offset := (pageNumber - 1) * pageSize
 
 	sqlString := `SELECT
-	f.id,
-	f.name,
-	f.image,
-	f.skip_logging,
-	f.created_at,
-	f.updated_at
+	f.*
 FROM functions f
 WHERE f.name ILIKE $1
+ORDER BY f.name DESC
 OFFSET $2
 LIMIT $3
-ORDER BY name desc
 `
 	functions := []model.Function{}
 
-	rows, err := s.conn.QueryxContext(ctx, sqlString, fmt.Sprintf("%%%s%%", query), offset, pageSize)
+	rows, err := s.conn.QueryxContext(ctx, sqlString, fmt.Sprintf("'%%%s%%'", query), offset, pageSize)
 	if err != nil {
 		return nil, fmt.Errorf("failed to run db query. err: %w", err)
 	}

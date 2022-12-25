@@ -1,0 +1,11 @@
+{% import "github.com/sparkymat/fundock/presenter" %}
+
+{% func Functions(functions []presenter.Function) %}
+  <div>
+    {% for _, fn := range functions %}
+      <div>
+        <h3>{%s fn.Name %}</h3>
+      </div>
+    {% endfor %}
+  </div>
+{% endfunc %}
