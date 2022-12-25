@@ -1,0 +1,3 @@
+{% func Home() %}
+  <h3>home</h3>
+{% endfunc %}

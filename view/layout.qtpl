@@ -13,7 +13,8 @@
         <div class="uk-navbar-left">
             <a href="/" class="uk-navbar-item uk-logo uk-margin-small-left">{%s title %}</a>
             <ul class="uk-navbar-nav">
-                <li class="uk-parent"><a href="/apps">App Catalog</a></li>
+                <li class="uk-parent"><a href="/functions">Functions</a></li>
+                <li class="uk-parent"><a href="/invocations">Invocations</a></li>
             </ul>
         </div>
       </nav>

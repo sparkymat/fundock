@@ -1,0 +1,8 @@
+{% func Error(message string) %}
+  <div class="uk-flex uk-flex-center">
+    <div class="uk-card uk-card-hover uk-card-secondary uk-card-body uk-width-1-1 uk-width-1-3@m uk-margin-large-top">
+      <h3 class="uk-card-title">Error</h3>
+      <p>{%s message %}</p>
+    </div>
+  </div>
+{% endfunc %}
