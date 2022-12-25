@@ -1,0 +1,27 @@
+{% func Layout(title string, content string) %}
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>{%s title %}</title>
+      <link rel="stylesheet" type="text/css" href="/css/uikit.min.css">
+      <link rel="stylesheet" type="text/css" href="/css/style.css">
+    </head>
+    <body>
+      <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-left">
+            <a href="/" class="uk-navbar-item uk-logo uk-margin-small-left">{%s title %}</a>
+            <ul class="uk-navbar-nav">
+                <li class="uk-parent"><a href="/apps">App Catalog</a></li>
+            </ul>
+        </div>
+      </nav>
+      {%s= content %}
+      <script src="/js/uikit.min.js"></script>
+      <script src="/js/uikit-icons.min.js"></script>
+      <script src="/js/index.js"></script>
+    </body>
+  </html>
+{% endfunc %}
+

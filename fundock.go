@@ -1,5 +1,7 @@
 package main
 
+//go:generate go run github.com/valyala/quicktemplate/qtc -dir=view
+
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/sparkymat/fundock/config"
