@@ -1,16 +1,18 @@
-package dbiface_test
+package dockeriface_test
 
 import (
 	"reflect"
 	"testing"
 
-	"github.com/sparkymat/fundock/database"
-	"github.com/sparkymat/fundock/database/dbiface"
+	"github.com/sparkymat/fundock/docker"
+	"github.com/sparkymat/fundock/docker/dockeriface"
 )
 
-func TestDatabase(t *testing.T) {
-	structType := reflect.TypeOf(&database.Service{})
-	interfaceType := reflect.TypeOf((*dbiface.DBAPI)(nil)).Elem()
+func TestDocker(t *testing.T) {
+	t.Parallel()
+
+	structType := reflect.TypeOf(&docker.Service{})
+	interfaceType := reflect.TypeOf((*dockeriface.DockerAPI)(nil)).Elem()
 
 	interfaceMethodMap := map[string]interface{}{}
 
