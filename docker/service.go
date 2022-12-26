@@ -22,10 +22,12 @@ type Service struct {
 
 func (s *Service) Run(ctx context.Context, image string, input string) (string, error) {
 
-	err := s.pullImage(ctx, image)
-	if err != nil {
-		return "", err
-	}
+	/*
+		err := s.pullImage(ctx, image)
+		if err != nil {
+			return "", err
+		}
+	*/
 
 	containerID, err := s.createContainer(ctx, image, input)
 	if err != nil {
@@ -33,6 +35,11 @@ func (s *Service) Run(ctx context.Context, image string, input string) (string, 
 	}
 
 	err = s.runContainer(ctx, containerID)
+	if err != nil {
+		return "", err
+	}
+
+	err = s.attachContainer(ctx, containerID, input)
 	if err != nil {
 		return "", err
 	}

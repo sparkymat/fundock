@@ -11,7 +11,10 @@ import (
 
 func (s *Service) createContainer(ctx context.Context, image string, input string) (string, error) {
 	containerCfg := &container.Config{
-		Image: image}
+		Image:     image,
+		OpenStdin: true,
+		StdinOnce: true,
+	}
 	hostConfig := &container.HostConfig{}
 	nwConfig := &network.NetworkingConfig{}
 	pf := &specs.Platform{}
