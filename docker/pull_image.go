@@ -2,6 +2,7 @@ package docker
 
 import (
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/docker/docker/api/types"
@@ -12,13 +13,13 @@ func (s *Service) pullImage(ctx context.Context, image string) error {
 		All: true,
 	})
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to pull image. err: %w", err)
 	}
 
 	_, err = io.ReadAll(resp)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to read image pull response. err: %w", err)
 	}
 
-	return err
+	return nil
 }
