@@ -1,0 +1,27 @@
+{% import "github.com/sparkymat/fundock/presenter" %}
+
+{% func FunctionShow(fn presenter.Function) %}
+  <div class="uk-padding uk-flex uk-flex-column">
+    <h1>{%s fn.Name %}</h1>
+    <p class="uk-margin-small">
+      <span uk-icon="info"></span>
+      {%s fn.Image %}
+    </p>
+    {% if fn.SkipLogging %}
+      <p>Input and output is not logged</p>
+    {% else %}
+      <p>Input and output is logged</p>
+    {% endif %}
+    <div>
+      <button class="uk-button uk-button-primary">Run</button>
+      <button class="uk-button uk-button-danger">Delete</button>
+    </div>
+    <h3>Invocations</h3>
+    <table class="uk-table uk-table-striped">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+{% endfunc %}

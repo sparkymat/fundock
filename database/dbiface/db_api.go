@@ -9,4 +9,5 @@ import (
 type DBAPI interface {
 	AutoMigrate() error
 	FetchFunctions(ctx context.Context, pageSize uint32, pageNumber uint32) ([]model.Function, error)
+	FetchFunction(ctx context.Context, name string) (*model.Function, error)
 }
