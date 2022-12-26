@@ -43,14 +43,33 @@ func (s *Service) Run(ctx context.Context, image string, input string) (string, 
 		return "", err
 	}
 
-	statusCode, err := s.waitForContainerExit(ctx, containerID)
+	_, err = s.waitForContainerExit(ctx, containerID)
 	if err != nil {
 		return "", err
 	}
 
-	fmt.Printf("statusCode = %v\n", statusCode)
+	response, err := s.getContainerLogs(ctx, containerID)
+	if err != nil {
+		return "", err
+	}
 
-	return "", err
+	return response, err
+}
+
+func (s *Service) getContainerLogs(ctx context.Context, containerID string) (string, error) {
+	reader, err := s.client.ContainerLogs(ctx, containerID, types.ContainerLogsOptions{})
+	if err != nil {
+		return "", err
+	}
+	defer reader.Close()
+
+	body, err := io.ReadAll(reader)
+	if err != nil {
+		return "", err
+	}
+
+	return string(body), nil
+
 }
 
 func (s *Service) waitForContainerExit(ctx context.Context, containerID string) (int64, error) {
