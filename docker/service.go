@@ -104,9 +104,7 @@ func (s *Service) pullImage(ctx context.Context, image string) error {
 func (s *Service) createContainer(ctx context.Context, image string, input string) (string, error) {
 	containerCfg := &container.Config{
 		Image: image}
-	hostConfig := &container.HostConfig{
-		AutoRemove: true,
-	}
+	hostConfig := &container.HostConfig{}
 	nwConfig := &network.NetworkingConfig{}
 	pf := &specs.Platform{}
 
