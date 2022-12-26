@@ -57,7 +57,7 @@ func (s *Service) Run(ctx context.Context, image string, input string) (string, 
 }
 
 func (s *Service) getContainerLogs(ctx context.Context, containerID string) (string, error) {
-	reader, err := s.client.ContainerLogs(ctx, containerID, types.ContainerLogsOptions{})
+	reader, err := s.client.ContainerLogs(ctx, containerID, types.ContainerLogsOptions{ShowStdout: true})
 	if err != nil {
 		return "", err
 	}
