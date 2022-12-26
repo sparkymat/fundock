@@ -12,7 +12,7 @@ var (
 	ErrInvalidPagination = errors.New("invalid page request")
 )
 
-func (s *Service) FetchFunctions(ctx context.Context, query string, pageSize uint32, pageNumber uint32) ([]model.Function, error) {
+func (s *Service) FetchFunctions(ctx context.Context, pageNumber uint32, pageSize uint32) ([]model.Function, error) {
 	if pageSize == 0 || pageNumber == 0 {
 		return nil, ErrInvalidPagination
 	}
@@ -22,14 +22,13 @@ func (s *Service) FetchFunctions(ctx context.Context, query string, pageSize uin
 	sqlString := `SELECT
 	f.*
 FROM functions f
-WHERE f.name ILIKE $1
 ORDER BY f.name DESC
-OFFSET $2
-LIMIT $3
+OFFSET $1
+LIMIT $2
 `
 	functions := []model.Function{}
 
-	rows, err := s.conn.QueryxContext(ctx, sqlString, fmt.Sprintf("'%%%s%%'", query), offset, pageSize)
+	rows, err := s.conn.QueryxContext(ctx, sqlString, offset, pageSize)
 	if err != nil {
 		return nil, fmt.Errorf("failed to run db query. err: %w", err)
 	}

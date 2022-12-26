@@ -25,50 +25,89 @@ func StreamFunctions(qw422016 *qt422016.Writer, functions []presenter.Function) 
 //line view/functions.qtpl:3
 	qw422016.N().S(`
   <div>
-    `)
-//line view/functions.qtpl:5
+    <table class="uk-table uk-table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Image</th>
+          <th>logged?</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        `)
+//line view/functions.qtpl:15
 	for _, fn := range functions {
-//line view/functions.qtpl:5
+//line view/functions.qtpl:15
 		qw422016.N().S(`
-      <div>
-        <h3>`)
-//line view/functions.qtpl:7
+          <tr>
+            <td>`)
+//line view/functions.qtpl:17
 		qw422016.E().S(fn.Name)
-//line view/functions.qtpl:7
-		qw422016.N().S(`</h3>
-      </div>
-    `)
-//line view/functions.qtpl:9
+//line view/functions.qtpl:17
+		qw422016.N().S(`</td>
+            <td>`)
+//line view/functions.qtpl:18
+		qw422016.E().S(fn.Image)
+//line view/functions.qtpl:18
+		qw422016.N().S(`</td>
+            `)
+//line view/functions.qtpl:19
+		if fn.SkipLogging {
+//line view/functions.qtpl:19
+			qw422016.N().S(`
+              <td>No</td>
+            `)
+//line view/functions.qtpl:21
+		} else {
+//line view/functions.qtpl:21
+			qw422016.N().S(`
+              <td>No</td>
+            `)
+//line view/functions.qtpl:23
+		}
+//line view/functions.qtpl:23
+		qw422016.N().S(`
+            <td>`)
+//line view/functions.qtpl:24
+		qw422016.E().S(fn.CreatedTimestamp)
+//line view/functions.qtpl:24
+		qw422016.N().S(`</td>
+          </tr>
+        `)
+//line view/functions.qtpl:26
 	}
-//line view/functions.qtpl:9
+//line view/functions.qtpl:26
 	qw422016.N().S(`
+      </tbody>
+    </table>
   </div>
 `)
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 }
 
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 func WriteFunctions(qq422016 qtio422016.Writer, functions []presenter.Function) {
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 	StreamFunctions(qw422016, functions)
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 	qt422016.ReleaseWriter(qw422016)
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 }
 
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 func Functions(functions []presenter.Function) string {
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 	qb422016 := qt422016.AcquireByteBuffer()
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 	WriteFunctions(qb422016, functions)
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 	qs422016 := string(qb422016.B)
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 	qt422016.ReleaseByteBuffer(qb422016)
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 	return qs422016
-//line view/functions.qtpl:11
+//line view/functions.qtpl:30
 }

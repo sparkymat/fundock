@@ -10,9 +10,12 @@ import (
 	"github.com/sparkymat/fundock/view"
 )
 
+const DefaultPageSize = 20
+const DefaultPageNumber = 1
+
 func Functions(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		functions, err := db.FetchFunctions(c.Request().Context(), "", 1, 20)
+		functions, err := db.FetchFunctions(c.Request().Context(), DefaultPageNumber, DefaultPageSize)
 		if err != nil {
 			c.Logger().Errorf("db.FetchFunctions failed with err: %v", err)
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to load functions")

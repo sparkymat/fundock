@@ -37,11 +37,7 @@ func StreamLayout(qw422016 *qt422016.Writer, title string, content string) {
     <body>
       <nav class="uk-navbar-container" uk-navbar>
         <div class="uk-navbar-left">
-            <a href="/" class="uk-navbar-item uk-logo uk-margin-small-left">`)
-//line view/layout.qtpl:14
-	qw422016.E().S(title)
-//line view/layout.qtpl:14
-	qw422016.N().S(`</a>
+            <a href="/" class="uk-navbar-item uk-logo uk-margin-small-left">fundock</a>
             <ul class="uk-navbar-nav">
                 <li class="uk-parent"><a href="/functions">Functions</a></li>
                 <li class="uk-parent"><a href="/invocations">Invocations</a></li>

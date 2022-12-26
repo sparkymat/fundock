@@ -2,10 +2,29 @@
 
 {% func Functions(functions []presenter.Function) %}
   <div>
-    {% for _, fn := range functions %}
-      <div>
-        <h3>{%s fn.Name %}</h3>
-      </div>
-    {% endfor %}
+    <table class="uk-table uk-table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Image</th>
+          <th>logged?</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for _, fn := range functions %}
+          <tr>
+            <td>{%s fn.Name %}</td>
+            <td>{%s fn.Image %}</td>
+            {% if fn.SkipLogging %}
+              <td>No</td>
+            {% else %}
+              <td>No</td>
+            {% endif %}
+            <td>{%s fn.CreatedTimestamp %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endfunc %}
