@@ -1,6 +1,6 @@
 {% import "github.com/sparkymat/fundock/presenter" %}
 
-{% func FunctionShow(fn presenter.Function) %}
+{% func FunctionShow(csrfToken string, fn presenter.Function) %}
   <div class="uk-padding uk-flex uk-flex-column">
     <h1>{%s fn.Name %}</h1>
     <p class="uk-margin-small">
@@ -13,8 +13,15 @@
       <p>Input and output is logged</p>
     {% endif %}
     <div>
-      <button class="uk-button uk-button-primary">Run</button>
-      <button class="uk-button uk-button-danger">Delete</button>
+      <button class="uk-button uk-button-default">Disable</button>
+    </div>
+    <div class="uk-margin-top uk-width-1-1 uk-width-1-2@m">
+      <form action="/exec/{%s fn.Name %}" method="POST">
+        <input type="hidden" name="csrf" value="{%s csrfToken %}">
+        <json-editor class="uk-width-1-1" value="{}">
+        </json-editor>
+        <input type="submit" class="uk-button uk-button-primary uk-margin-small-top" value="Run">
+      </form>
     </div>
     <h3>Invocations</h3>
     <table class="uk-table uk-table-striped">

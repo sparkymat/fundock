@@ -51,4 +51,5 @@ func Setup(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI) {
 	app.GET("/", handler.Home(cfg, db))
 	app.GET("/functions", handler.Functions(cfg, db))
 	app.GET("/fn/:name", handler.FunctionShow(cfg, db))
+	app.POST("/exec/:name", handler.ExecFunction(cfg, db))
 }
