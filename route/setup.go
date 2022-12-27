@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sparkymat/fundock/config/configiface"
 	"github.com/sparkymat/fundock/database/dbiface"
+	"github.com/sparkymat/fundock/docker/dockeriface"
 	"github.com/sparkymat/fundock/internal/handler"
 	"github.com/sparkymat/fundock/view"
 )
@@ -32,7 +33,7 @@ func customErrorHandler(err error, c echo.Context) {
 	}
 }
 
-func Setup(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI) {
+func Setup(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) {
 	e.HTTPErrorHandler = customErrorHandler
 	e.Use(middleware.Recover())
 	e.Static("/css", "public/css")
@@ -51,5 +52,5 @@ func Setup(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI) {
 	app.GET("/", handler.Home(cfg, db))
 	app.GET("/functions", handler.Functions(cfg, db))
 	app.GET("/fn/:name", handler.FunctionShow(cfg, db))
-	app.POST("/exec/:name", handler.ExecFunction(cfg, db))
+	app.POST("/exec/:name", handler.ExecFunction(cfg, db, dockerSvc))
 }

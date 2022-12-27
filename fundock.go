@@ -6,11 +6,17 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/sparkymat/fundock/config"
 	"github.com/sparkymat/fundock/database"
+	"github.com/sparkymat/fundock/docker"
 	"github.com/sparkymat/fundock/route"
 )
 
 func main() {
 	cfg, err := config.New()
+	if err != nil {
+		panic(err)
+	}
+
+	dockerSvc, err := docker.New()
 	if err != nil {
 		panic(err)
 	}
@@ -27,7 +33,7 @@ func main() {
 	}
 
 	e := echo.New()
-	route.Setup(e, cfg, db)
+	route.Setup(e, cfg, db, dockerSvc)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
