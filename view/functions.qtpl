@@ -14,7 +14,7 @@
       <tbody>
         {% for _, fn := range functions %}
           <tr>
-            <td>{%s fn.Name %}</td>
+            <td><a href="/fn/{%s fn.Name %}">{%s fn.Name %}</a></td>
             <td>{%s fn.Image %}</td>
             {% if fn.SkipLogging %}
               <td>No</td>

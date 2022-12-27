@@ -41,11 +41,15 @@ func StreamFunctions(qw422016 *qt422016.Writer, functions []presenter.Function) 
 //line view/functions.qtpl:15
 		qw422016.N().S(`
           <tr>
-            <td>`)
+            <td><a href="/fn/`)
 //line view/functions.qtpl:17
 		qw422016.E().S(fn.Name)
 //line view/functions.qtpl:17
-		qw422016.N().S(`</td>
+		qw422016.N().S(`">`)
+//line view/functions.qtpl:17
+		qw422016.E().S(fn.Name)
+//line view/functions.qtpl:17
+		qw422016.N().S(`</a></td>
             <td>`)
 //line view/functions.qtpl:18
 		qw422016.E().S(fn.Image)
