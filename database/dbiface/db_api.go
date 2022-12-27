@@ -13,4 +13,5 @@ type DBAPI interface {
 	FetchFunction(ctx context.Context, name string) (*model.Function, error)
 	CreateInvocation(ctx context.Context, fn model.Function, input *string, executedAt time.Time) (*string, error)
 	UpdateInvocation(ctx context.Context, id string, output *string, executionTimeMS int64) error
+	FetchFunctionInvocations(ctx context.Context, functionID string, pageNumber uint32, pageSize uint32) ([]model.Invocation, error)
 }

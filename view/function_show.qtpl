@@ -1,6 +1,6 @@
 {% import "github.com/sparkymat/fundock/presenter" %}
 
-{% func FunctionShow(csrfToken string, fn presenter.Function) %}
+{% func FunctionShow(csrfToken string, fn presenter.Function, invocations []presenter.Invocation) %}
   <div class="uk-padding uk-flex uk-flex-column">
     <h1>{%s fn.Name %}</h1>
     <p class="uk-margin-small">
@@ -26,8 +26,16 @@
     <h3>Invocations</h3>
     <table class="uk-table uk-table-striped">
       <thead>
+        <th>Timestamp</th>
+        <th>Duration</th>
       </thead>
       <tbody>
+        {% for _, in := range invocations %}
+          <tr>
+            <td>{%s in.Timestamp %}</td>
+            <td>{%s in.Duration %}</td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>

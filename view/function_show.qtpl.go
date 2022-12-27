@@ -21,7 +21,7 @@ var (
 )
 
 //line view/function_show.qtpl:3
-func StreamFunctionShow(qw422016 *qt422016.Writer, csrfToken string, fn presenter.Function) {
+func StreamFunctionShow(qw422016 *qt422016.Writer, csrfToken string, fn presenter.Function, invocations []presenter.Invocation) {
 //line view/function_show.qtpl:3
 	qw422016.N().S(`
   <div class="uk-padding uk-flex uk-flex-column">
@@ -77,37 +77,61 @@ func StreamFunctionShow(qw422016 *qt422016.Writer, csrfToken string, fn presente
     <h3>Invocations</h3>
     <table class="uk-table uk-table-striped">
       <thead>
+        <th>Timestamp</th>
+        <th>Duration</th>
       </thead>
       <tbody>
+        `)
+//line view/function_show.qtpl:33
+	for _, in := range invocations {
+//line view/function_show.qtpl:33
+		qw422016.N().S(`
+          <tr>
+            <td>`)
+//line view/function_show.qtpl:35
+		qw422016.E().S(in.Timestamp)
+//line view/function_show.qtpl:35
+		qw422016.N().S(`</td>
+            <td>`)
+//line view/function_show.qtpl:36
+		qw422016.E().S(in.Duration)
+//line view/function_show.qtpl:36
+		qw422016.N().S(`</td>
+          </tr>
+        `)
+//line view/function_show.qtpl:38
+	}
+//line view/function_show.qtpl:38
+	qw422016.N().S(`
       </tbody>
     </table>
   </div>
 `)
-//line view/function_show.qtpl:34
+//line view/function_show.qtpl:42
 }
 
-//line view/function_show.qtpl:34
-func WriteFunctionShow(qq422016 qtio422016.Writer, csrfToken string, fn presenter.Function) {
-//line view/function_show.qtpl:34
+//line view/function_show.qtpl:42
+func WriteFunctionShow(qq422016 qtio422016.Writer, csrfToken string, fn presenter.Function, invocations []presenter.Invocation) {
+//line view/function_show.qtpl:42
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line view/function_show.qtpl:34
-	StreamFunctionShow(qw422016, csrfToken, fn)
-//line view/function_show.qtpl:34
+//line view/function_show.qtpl:42
+	StreamFunctionShow(qw422016, csrfToken, fn, invocations)
+//line view/function_show.qtpl:42
 	qt422016.ReleaseWriter(qw422016)
-//line view/function_show.qtpl:34
+//line view/function_show.qtpl:42
 }
 
-//line view/function_show.qtpl:34
-func FunctionShow(csrfToken string, fn presenter.Function) string {
-//line view/function_show.qtpl:34
+//line view/function_show.qtpl:42
+func FunctionShow(csrfToken string, fn presenter.Function, invocations []presenter.Invocation) string {
+//line view/function_show.qtpl:42
 	qb422016 := qt422016.AcquireByteBuffer()
-//line view/function_show.qtpl:34
-	WriteFunctionShow(qb422016, csrfToken, fn)
-//line view/function_show.qtpl:34
+//line view/function_show.qtpl:42
+	WriteFunctionShow(qb422016, csrfToken, fn, invocations)
+//line view/function_show.qtpl:42
 	qs422016 := string(qb422016.B)
-//line view/function_show.qtpl:34
+//line view/function_show.qtpl:42
 	qt422016.ReleaseByteBuffer(qb422016)
-//line view/function_show.qtpl:34
+//line view/function_show.qtpl:42
 	return qs422016
-//line view/function_show.qtpl:34
+//line view/function_show.qtpl:42
 }

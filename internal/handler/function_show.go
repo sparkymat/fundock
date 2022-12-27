@@ -26,9 +26,19 @@ func FunctionShow(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc 
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to load function")
 		}
 
-		presentedFn := presenter.FunctionFromModel(*fn)
+		latestInvocations, err := db.FetchFunctionInvocations(c.Request().Context(), fn.ID, 1, 10)
+		if err != nil || fn == nil {
+			c.Logger().Errorf("db.FetchFunctionInvocations failed with err: %v", err)
+			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to load function invocations")
+		}
 
-		pageHTML := view.FunctionShow(csrfToken, presentedFn)
+		presentedFn := presenter.FunctionFromModel(*fn)
+		presentedInvocations := []presenter.Invocation{}
+		for _, in := range latestInvocations {
+			presentedInvocations = append(presentedInvocations, presenter.InvocationFromModel(in))
+		}
+
+		pageHTML := view.FunctionShow(csrfToken, presentedFn, presentedInvocations)
 		htmlString := view.Layout(fmt.Sprintf("fundock | %v", fn.Name), pageHTML)
 
 		//nolint:wrapcheck
