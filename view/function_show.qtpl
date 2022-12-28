@@ -26,12 +26,14 @@
     <h3>Invocations</h3>
     <table class="uk-table uk-table-striped">
       <thead>
+        <th>ID</th>
         <th>Timestamp</th>
         <th>Duration</th>
       </thead>
       <tbody>
         {% for _, in := range invocations %}
           <tr>
+            <td>{%s in.ID %}</td>
             <td>{%s in.Timestamp %}</td>
             <td>{%s in.Duration %}</td>
           </tr>
