@@ -9,7 +9,7 @@ import (
 	"github.com/sparkymat/fundock/view"
 )
 
-func NewFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
+func NewFunction(_ configiface.ConfigAPI, _ dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		csrfToken := GetCSRFToken(c)
 
