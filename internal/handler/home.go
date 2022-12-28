@@ -9,7 +9,7 @@ import (
 	"github.com/sparkymat/fundock/view"
 )
 
-func Home(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
+func Home(_ configiface.ConfigAPI, _ dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		pageHTML := view.Home()
 		htmlString := view.Layout("fundock", pageHTML)

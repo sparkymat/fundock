@@ -14,7 +14,7 @@ func (s *Service) CreateFunction(ctx context.Context, name string, image string,
 	`
 
 	var functionID string
-	if err := s.conn.QueryRowContext(
+	if err := s.conn.QueryRowContext( //nolint:execinquery
 		ctx,
 		sqlString,
 		name,

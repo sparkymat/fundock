@@ -22,6 +22,7 @@ ORDER BY inv.updated_at DESC
 OFFSET $2
 LIMIT $3
 `
+
 	invocations := []model.Invocation{}
 
 	rows, err := s.conn.QueryxContext(ctx, sqlString, functionID, offset, pageSize)
@@ -31,10 +32,12 @@ LIMIT $3
 
 	for rows.Next() {
 		var in model.Invocation
+
 		err := rows.StructScan(&in)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan db result. err: %w", err)
 		}
+
 		invocations = append(invocations, in)
 	}
 

@@ -6,9 +6,8 @@ import (
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
-	// Importing file driver for migrations.
-	_ "github.com/golang-migrate/migrate/v4/source/file"
-	_ "github.com/jackc/pgx/v4"
+	_ "github.com/golang-migrate/migrate/v4/source/file" // file driver
+	_ "github.com/jackc/pgx/v4"                          // pgx driver
 	"github.com/jmoiron/sqlx"
 )
 
@@ -19,12 +18,12 @@ type Config struct {
 func New(cfg Config) (*Service, error) {
 	dbConn, err := sqlx.Connect("postgres", cfg.ConnectionString)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to connect to pg. err: %w", err)
 	}
 
 	err = dbConn.Ping()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to ping pg. err: %w", err)
 	}
 
 	return &Service{

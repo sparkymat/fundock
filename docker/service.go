@@ -29,7 +29,7 @@ func (s *Service) Run(ctx context.Context, image string, input string) (string, 
 		}
 	}
 
-	containerID, err := s.createContainer(ctx, image, input)
+	containerID, err := s.createContainer(ctx, image)
 	if err != nil {
 		return "", err
 	}

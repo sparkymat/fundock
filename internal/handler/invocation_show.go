@@ -12,7 +12,7 @@ import (
 	"github.com/sparkymat/fundock/view"
 )
 
-func InvocationShow(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
+func InvocationShow(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
 		if id == "" {
@@ -22,18 +22,19 @@ func InvocationShow(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFun
 		inv, err := db.FetchInvocation(c.Request().Context(), id)
 		if err != nil {
 			c.Logger().Errorf("db.FetchInvocation failed with err: %v", err)
+
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to load invocation")
 		}
 
 		presentedInv := presenter.InvocationFromModel(*inv)
 
 		var fn *model.Function
+
 		var presentedFn *presenter.Function
 
 		if inv.FunctionID.Valid {
 			fn, err = db.FetchFunction(c.Request().Context(), inv.FunctionName)
 			if err != nil {
-				fn = nil
 				c.Logger().Errorf("db.FetchInvocation failed with err: %v", err)
 			} else {
 				pf := presenter.FunctionFromModel(*fn)

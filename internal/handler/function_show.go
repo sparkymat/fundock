@@ -11,7 +11,12 @@ import (
 	"github.com/sparkymat/fundock/view"
 )
 
-func FunctionShow(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
+const (
+	defaultInvocationsPageNumber = 1
+	defaultInvocationsPageSize   = 10
+)
+
+func FunctionShow(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		csrfToken := GetCSRFToken(c)
 
@@ -23,17 +28,25 @@ func FunctionShow(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc 
 		fn, err := db.FetchFunction(c.Request().Context(), name)
 		if err != nil || fn == nil {
 			c.Logger().Errorf("db.FetchFunction failed with err: %v", err)
+
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to load function")
 		}
 
-		latestInvocations, err := db.FetchFunctionInvocations(c.Request().Context(), fn.ID, 1, 10)
+		latestInvocations, err := db.FetchFunctionInvocations(
+			c.Request().Context(),
+			fn.ID,
+			defaultInvocationsPageNumber,
+			defaultInvocationsPageSize,
+		)
 		if err != nil || fn == nil {
 			c.Logger().Errorf("db.FetchFunctionInvocations failed with err: %v", err)
+
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to load function invocations")
 		}
 
 		presentedFn := presenter.FunctionFromModel(*fn)
 		presentedInvocations := []presenter.Invocation{}
+
 		for _, in := range latestInvocations {
 			presentedInvocations = append(presentedInvocations, presenter.InvocationFromModel(in))
 		}

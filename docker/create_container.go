@@ -9,7 +9,7 @@ import (
 	specs "github.com/opencontainers/image-spec/specs-go/v1"
 )
 
-func (s *Service) createContainer(ctx context.Context, image string, input string) (string, error) {
+func (s *Service) createContainer(ctx context.Context, image string) (string, error) {
 	containerCfg := &container.Config{
 		Image:     image,
 		OpenStdin: true,

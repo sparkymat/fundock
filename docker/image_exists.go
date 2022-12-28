@@ -21,6 +21,7 @@ func (s *Service) imageExists(ctx context.Context, image string) (bool, error) {
 		if err != nil {
 			continue
 		}
+
 		for _, repoTag := range img.RepoTags {
 			if repoTag == strippedName {
 				return true, nil

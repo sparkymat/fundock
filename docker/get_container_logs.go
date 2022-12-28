@@ -17,6 +17,7 @@ func (s *Service) getContainerLogs(ctx context.Context, containerID string) (str
 	defer multiReader.Close()
 
 	var stdoutBuffer bytes.Buffer
+
 	var stderrBuffer bytes.Buffer
 
 	_, err = stdcopy.StdCopy(&stdoutBuffer, &stderrBuffer, multiReader)

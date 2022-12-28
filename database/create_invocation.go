@@ -16,7 +16,7 @@ func (s *Service) CreateInvocation(ctx context.Context, fn model.Function, input
 	`
 
 	var invocationID string
-	if err := s.conn.QueryRowContext(
+	if err := s.conn.QueryRowContext( //nolint:execinquery
 		ctx,
 		sqlString,
 		fn.Name,

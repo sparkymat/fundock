@@ -9,6 +9,8 @@ import (
 )
 
 func TestDockerRun(t *testing.T) {
+	t.Parallel()
+
 	testCases := []struct {
 		name           string
 		image          string
@@ -47,10 +49,11 @@ For more examples and ideas, visit:
 		},
 	}
 
-	for _, testCase := range testCases {
+	for _, testCase := range testCases { //nolint:paralleltest
 		testCase := testCase
-
 		t.Run(testCase.name, func(it *testing.T) {
+			t.Parallel()
+
 			svc, err := docker.New()
 			require.NoError(t, err)
 
