@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestDockerRun(t *testing.T) {
+func TestDockerRun(t *testing.T) { //nolint:tparallel
 	t.Parallel()
 
 	testCases := []struct {
@@ -52,8 +52,6 @@ For more examples and ideas, visit:
 	for _, testCase := range testCases { //nolint:paralleltest
 		testCase := testCase
 		t.Run(testCase.name, func(it *testing.T) {
-			t.Parallel()
-
 			svc, err := docker.New()
 			require.NoError(t, err)
 
