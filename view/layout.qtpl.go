@@ -40,14 +40,13 @@ func StreamLayout(qw422016 *qt422016.Writer, title string, content string) {
             <a href="/" class="uk-navbar-item uk-logo uk-margin-small-left">fundock</a>
             <ul class="uk-navbar-nav">
                 <li class="uk-parent"><a href="/functions">Functions</a></li>
-                <li class="uk-parent"><a href="/invocations">Invocations</a></li>
             </ul>
         </div>
       </nav>
       `)
-//line view/layout.qtpl:21
+//line view/layout.qtpl:20
 	qw422016.N().S(content)
-//line view/layout.qtpl:21
+//line view/layout.qtpl:20
 	qw422016.N().S(`
       <script src="/js/uikit.min.js"></script>
       <script src="/js/uikit-icons.min.js"></script>
@@ -56,31 +55,31 @@ func StreamLayout(qw422016 *qt422016.Writer, title string, content string) {
     </body>
   </html>
 `)
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 }
 
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 func WriteLayout(qq422016 qtio422016.Writer, title string, content string) {
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 	StreamLayout(qw422016, title, content)
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 	qt422016.ReleaseWriter(qw422016)
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 }
 
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 func Layout(title string, content string) string {
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 	qb422016 := qt422016.AcquireByteBuffer()
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 	WriteLayout(qb422016, title, content)
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 	qs422016 := string(qb422016.B)
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 	qt422016.ReleaseByteBuffer(qb422016)
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 	return qs422016
-//line view/layout.qtpl:28
+//line view/layout.qtpl:27
 }

@@ -21,33 +21,35 @@ var (
 func StreamHome(qw422016 *qt422016.Writer) {
 //line view/home.qtpl:1
 	qw422016.N().S(`
-  <h3>home</h3>
+  <div class="uk-padding">
+    <h3>Welcome to fundock!</h3>
+  </div>
 `)
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 }
 
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 func WriteHome(qq422016 qtio422016.Writer) {
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 	StreamHome(qw422016)
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 	qt422016.ReleaseWriter(qw422016)
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 }
 
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 func Home() string {
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 	qb422016 := qt422016.AcquireByteBuffer()
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 	WriteHome(qb422016)
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 	qs422016 := string(qb422016.B)
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 	qt422016.ReleaseByteBuffer(qb422016)
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 	return qs422016
-//line view/home.qtpl:3
+//line view/home.qtpl:5
 }
