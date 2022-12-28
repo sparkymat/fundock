@@ -14,3 +14,6 @@ The quickest way to get started with fundock is by using docker-compose. Copy th
 
 https://user-images.githubusercontent.com/104314/209816472-be790e41-11ce-4629-bc53-d59833d0ff9e.mp4
 
+## Functions
+
+Some useful functions can be found at https://github.com/sparkymat/fundock-functions
