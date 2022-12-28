@@ -10,4 +10,4 @@ The quickest way to get started with fundock is by using docker-compose. Copy th
 
 `fundock` is a simple FaaS implementation that runs functions using Docker containers. Any docker container can potentially be used. `fundock` passes in the provided input to the `stdin` of the container, and reads any logs/output back and stores it as the output of the function.
 
-![](docs/invocation.mp4)
+https://raw.githubusercontent.com/sparkymat/fundock/feature/docker-release/docs/invocation.mp4
