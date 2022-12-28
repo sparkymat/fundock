@@ -34,7 +34,7 @@
       <tbody>
         {% for _, in := range invocations %}
           <tr>
-            <td>{%s in.ID %}</td>
+            <td><a href="/invocations/{%s in.ID %}">{%s in.ID %}</a></td>
             <td>{%s in.Status %}</td>
             <td>{%s in.Timestamp %}</td>
             <td>{%s in.Duration %}</td>

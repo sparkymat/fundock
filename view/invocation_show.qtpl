@@ -1,0 +1,29 @@
+{% import "github.com/sparkymat/fundock/presenter" %}
+
+{% func InvocationShow(inv presenter.Invocation, fn *presenter.Function) %}
+  <div class="uk-padding uk-flex uk-flex-column">
+    <h3>{%s inv.ID %}</h3>
+    {% if fn != nil %}
+      <a href="/fn/{%s fn.Name %}">
+    {% endif %}
+    <p class="uk-margin-small">
+      <span uk-icon="info"></span>
+      {%s inv.FunctionName %}
+    </p>
+    {% if fn != nil %}
+      </a>
+    {% endif %}
+    <h3>Input</h3>
+    {% if inv.Input != nil %}
+      <pre>{%s *inv.Input %}</pre>
+    {% else %}
+      <p>No input</p>
+    {% endif %}
+    <h3>Output</h3>
+    {% if inv.Output != nil %}
+      <pre>{%s *inv.Output %}</pre>
+    {% else %}
+      <p>No output</p>
+    {% endif %}
+  </div>
+{% endfunc %}

@@ -16,4 +16,5 @@ type DBAPI interface {
 	UpdateInvocationSucceeded(ctx context.Context, id string, endedAt time.Time, output *string) error
 	UpdateInvocationFailed(ctx context.Context, id string, endedAt time.Time, errorMessage *string) error
 	FetchFunctionInvocations(ctx context.Context, functionID string, pageNumber uint32, pageSize uint32) ([]model.Invocation, error)
+	FetchInvocation(ctx context.Context, id string) (*model.Invocation, error)
 }

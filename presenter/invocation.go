@@ -7,16 +7,20 @@ import (
 )
 
 type Invocation struct {
-	ID        string
-	Status    string
-	Timestamp string
-	Duration  string
+	ID           string
+	FunctionName string
+	Status       string
+	Timestamp    string
+	Duration     string
+	Input        *string
+	Output       *string
 }
 
 func InvocationFromModel(in model.Invocation) Invocation {
 	presentedIn := Invocation{
-		ID:     in.ID,
-		Status: string(in.Status),
+		ID:           in.ID,
+		FunctionName: in.FunctionName,
+		Status:       string(in.Status),
 	}
 
 	if in.StartedAt != nil {
@@ -25,6 +29,14 @@ func InvocationFromModel(in model.Invocation) Invocation {
 		if in.EndedAt != nil {
 			presentedIn.Duration = fmt.Sprintf("%d ms", in.EndedAt.Sub(*in.StartedAt).Milliseconds())
 		}
+	}
+
+	if in.Input.Valid {
+		presentedIn.Input = &in.Input.String
+	}
+
+	if in.Output.Valid {
+		presentedIn.Output = &in.Output.String
 	}
 
 	return presentedIn

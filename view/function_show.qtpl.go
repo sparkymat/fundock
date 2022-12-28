@@ -89,11 +89,15 @@ func StreamFunctionShow(qw422016 *qt422016.Writer, csrfToken string, fn presente
 //line view/function_show.qtpl:35
 		qw422016.N().S(`
           <tr>
-            <td>`)
+            <td><a href="/invocations/`)
 //line view/function_show.qtpl:37
 		qw422016.E().S(in.ID)
 //line view/function_show.qtpl:37
-		qw422016.N().S(`</td>
+		qw422016.N().S(`">`)
+//line view/function_show.qtpl:37
+		qw422016.E().S(in.ID)
+//line view/function_show.qtpl:37
+		qw422016.N().S(`</a></td>
             <td>`)
 //line view/function_show.qtpl:38
 		qw422016.E().S(in.Status)
