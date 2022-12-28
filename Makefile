@@ -1,7 +1,7 @@
 all: fundock
 
 fundock:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags '-s -w -extldflags "-static"' -o fundock fundock.go
+	CGO_ENABLED=0 go build -ldflags '-s -w -extldflags "-static"' -o fundock fundock.go
 
 start-app:
 	# Install reflex with 'go install github.com/cespare/reflex@latest'
