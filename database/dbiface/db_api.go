@@ -19,4 +19,6 @@ type DBAPI interface {
 	FetchInvocation(ctx context.Context, id string) (*model.Invocation, error)
 	CreateFunction(ctx context.Context, name string, image string, skipLogging bool) (*string, error)
 	FetchAPITokens(ctx context.Context, pageNumber uint32, pageSize uint32) ([]model.APIToken, error)
+	CreateAPIToken(ctx context.Context, clientName string, token string) (*string, error)
+	DeleteAPIToken(ctx context.Context, id string) error
 }
