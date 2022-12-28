@@ -36,10 +36,16 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 
 		input := inputBuffer.String()
 
+		var loggedInput *string
+		if !fn.SkipLogging {
+			copiedInput := input
+			loggedInput = &copiedInput
+		}
+
 		invocationID, err := db.CreateInvocation(
 			c.Request().Context(),
 			*fn,
-			&input,
+			loggedInput,
 		)
 		if err != nil {
 			c.Logger().Errorf("db.CreateInvocation failed with err: %v", err)
@@ -68,7 +74,14 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 			return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/fn/%v", fn.Name))
 		}
 
-		err = db.UpdateInvocationSucceeded(c.Request().Context(), *invocationID, executionEndedAt, &output)
+		var loggedOutput *string
+
+		if !fn.SkipLogging {
+			copiedOutput := output
+			loggedOutput = &copiedOutput
+		}
+
+		err = db.UpdateInvocationSucceeded(c.Request().Context(), *invocationID, executionEndedAt, loggedOutput)
 		if err != nil {
 			c.Logger().Errorf("db.UpdateInvocationSucceeded failed with err: %v", err)
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to update invocation succeeded")
