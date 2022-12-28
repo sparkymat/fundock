@@ -17,12 +17,12 @@ func (s *Service) imageExists(ctx context.Context, image string) (bool, error) {
 	}
 
 	for _, imageSummary := range summaries {
-		img, _,  err := s.client.ImageInspectWithRaw(ctx, imageSummary.ID)
+		img, _, err := s.client.ImageInspectWithRaw(ctx, imageSummary.ID)
 		if err != nil {
 			continue
 		}
 		for _, repoTag := range img.RepoTags {
-			if repoTag == strippedName  {
+			if repoTag == strippedName {
 				return true, nil
 			}
 		}
