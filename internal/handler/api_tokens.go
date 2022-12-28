@@ -12,6 +12,8 @@ import (
 
 func APITokens(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
+		csrfToken := GetCSRFToken(c)
+
 		apiTokens, err := db.FetchAPITokens(c.Request().Context(), DefaultPageNumber, DefaultPageSize)
 		if err != nil {
 			c.Logger().Errorf("db.FetchAPITokens failed with err: %v", err)
@@ -25,7 +27,7 @@ func APITokens(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 			presentedTokens = append(presentedTokens, presenter.APITokenFromModel(apiToken))
 		}
 
-		pageHTML := view.APITokens(presentedTokens)
+		pageHTML := view.APITokens(csrfToken, presentedTokens)
 		htmlString := view.Layout("fundock | api tokens", pageHTML)
 
 		//nolint:wrapcheck

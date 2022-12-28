@@ -1,8 +1,16 @@
 {% import "github.com/sparkymat/fundock/presenter" %}
 
-{% func APITokens(apiTokens []presenter.APIToken) %}
+{% func APITokens(csrfToken string, apiTokens []presenter.APIToken) %}
   <div class="uk-padding">
-    <a href="/api_tokens/new" class="uk-button uk-button-primary uk-float-right">New API Token</a>
+    <form action="/api_tokens" method="POST">
+      <input type="hidden" name="csrf" value="{%s csrfToken %}">
+      <div class="uk-flex uk-flex-row">
+        <div class="uk-form-controls uk-flex-1">
+          <input class="uk-input" id="client_name" type="text" name="client_name" placeholder="Client name (e.g. iOS app)" required>
+        </div>
+        <input type="submit" value="Create API token" class="uk-button uk-button-primary uk-margin-left">
+      </div>
+    </form>
     <table class="uk-table uk-table-striped">
       <thead>
         <tr>
