@@ -20,7 +20,6 @@
       {%s= content %}
       <script src="/js/uikit.min.js"></script>
       <script src="/js/uikit-icons.min.js"></script>
-      <script src="/js/json-editor.js"></script>
       <script src="/js/index.js"></script>
     </body>
   </html>
