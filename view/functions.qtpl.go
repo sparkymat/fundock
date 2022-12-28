@@ -24,7 +24,8 @@ var (
 func StreamFunctions(qw422016 *qt422016.Writer, functions []presenter.Function) {
 //line view/functions.qtpl:3
 	qw422016.N().S(`
-  <div>
+  <div class="uk-padding">
+    <a href="/functions/new" class="uk-button uk-button-primary uk-float-right">New function</a>
     <table class="uk-table uk-table-striped">
       <thead>
         <tr>
@@ -36,82 +37,82 @@ func StreamFunctions(qw422016 *qt422016.Writer, functions []presenter.Function) 
       </thead>
       <tbody>
         `)
-//line view/functions.qtpl:15
+//line view/functions.qtpl:16
 	for _, fn := range functions {
-//line view/functions.qtpl:15
+//line view/functions.qtpl:16
 		qw422016.N().S(`
           <tr>
             <td><a href="/fn/`)
-//line view/functions.qtpl:17
+//line view/functions.qtpl:18
 		qw422016.E().S(fn.Name)
-//line view/functions.qtpl:17
+//line view/functions.qtpl:18
 		qw422016.N().S(`">`)
-//line view/functions.qtpl:17
+//line view/functions.qtpl:18
 		qw422016.E().S(fn.Name)
-//line view/functions.qtpl:17
+//line view/functions.qtpl:18
 		qw422016.N().S(`</a></td>
             <td>`)
-//line view/functions.qtpl:18
+//line view/functions.qtpl:19
 		qw422016.E().S(fn.Image)
-//line view/functions.qtpl:18
+//line view/functions.qtpl:19
 		qw422016.N().S(`</td>
             `)
-//line view/functions.qtpl:19
+//line view/functions.qtpl:20
 		if fn.SkipLogging {
-//line view/functions.qtpl:19
+//line view/functions.qtpl:20
 			qw422016.N().S(`
               <td>No</td>
             `)
-//line view/functions.qtpl:21
+//line view/functions.qtpl:22
 		} else {
-//line view/functions.qtpl:21
+//line view/functions.qtpl:22
 			qw422016.N().S(`
               <td>No</td>
             `)
-//line view/functions.qtpl:23
+//line view/functions.qtpl:24
 		}
-//line view/functions.qtpl:23
+//line view/functions.qtpl:24
 		qw422016.N().S(`
             <td>`)
-//line view/functions.qtpl:24
+//line view/functions.qtpl:25
 		qw422016.E().S(fn.CreatedTimestamp)
-//line view/functions.qtpl:24
+//line view/functions.qtpl:25
 		qw422016.N().S(`</td>
           </tr>
         `)
-//line view/functions.qtpl:26
+//line view/functions.qtpl:27
 	}
-//line view/functions.qtpl:26
+//line view/functions.qtpl:27
 	qw422016.N().S(`
       </tbody>
     </table>
   </div>
 `)
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 }
 
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 func WriteFunctions(qq422016 qtio422016.Writer, functions []presenter.Function) {
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 	StreamFunctions(qw422016, functions)
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 	qt422016.ReleaseWriter(qw422016)
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 }
 
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 func Functions(functions []presenter.Function) string {
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 	qb422016 := qt422016.AcquireByteBuffer()
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 	WriteFunctions(qb422016, functions)
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 	qs422016 := string(qb422016.B)
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 	qt422016.ReleaseByteBuffer(qb422016)
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 	return qs422016
-//line view/functions.qtpl:30
+//line view/functions.qtpl:31
 }

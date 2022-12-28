@@ -1,7 +1,8 @@
 {% import "github.com/sparkymat/fundock/presenter" %}
 
 {% func Functions(functions []presenter.Function) %}
-  <div>
+  <div class="uk-padding">
+    <a href="/functions/new" class="uk-button uk-button-primary uk-float-right">New function</a>
     <table class="uk-table uk-table-striped">
       <thead>
         <tr>
