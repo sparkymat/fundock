@@ -1,9 +1,7 @@
 package handler
 
 import (
-	"bytes"
 	"fmt"
-	"io"
 	"net/http"
 	"time"
 
@@ -20,21 +18,13 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 			return echo.NewHTTPError(http.StatusNotFound, "Function not found")
 		}
 
+		input := c.FormValue("input")
+
 		fn, err := db.FetchFunction(c.Request().Context(), name)
 		if err != nil || fn == nil {
 			c.Logger().Errorf("db.FetchFunction failed with err: %v", err)
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to load function")
 		}
-
-		var inputBuffer bytes.Buffer
-
-		_, err = io.Copy(&inputBuffer, c.Request().Body)
-		if err != nil {
-			c.Logger().Errorf("db.FetchFunction failed with err: %v", err)
-			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to load function")
-		}
-
-		input := inputBuffer.String()
 
 		var loggedInput *string
 		if !fn.SkipLogging {

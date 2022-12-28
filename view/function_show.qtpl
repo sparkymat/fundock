@@ -18,8 +18,7 @@
     <div class="uk-margin-top uk-width-1-1 uk-width-1-2@m">
       <form action="/exec/{%s fn.Name %}" method="POST">
         <input type="hidden" name="csrf" value="{%s csrfToken %}">
-        <json-editor class="uk-width-1-1" value="{}">
-        </json-editor>
+        <textarea class="uk-width-1-1 uk-textarea" rows="8" name="input">{}</textarea>
         <input type="submit" class="uk-button uk-button-primary uk-margin-small-top" value="Run">
       </form>
     </div>
