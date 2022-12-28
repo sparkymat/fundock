@@ -1,0 +1,29 @@
+{% import "github.com/sparkymat/fundock/presenter" %}
+
+{% func APITokens(apiTokens []presenter.APIToken) %}
+  <div class="uk-padding">
+    <a href="/api_tokens/new" class="uk-button uk-button-primary uk-float-right">New API Token</a>
+    <table class="uk-table uk-table-striped">
+      <thead>
+        <tr>
+          <th>Client Name</th>
+          <th>Token</th>
+          <th>Last used</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for _, apiToken := range apiTokens %}
+          <tr>
+            <td>{%s apiToken.ClientName %}</td>
+            <td>{%s apiToken.Token %}</td>
+            {% if apiToken.LastUsed == nil %}
+              <td><i>Never</i></td>
+            {% else %}
+              <td>{%s *apiToken.LastUsed %}</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endfunc %}

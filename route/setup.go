@@ -56,4 +56,5 @@ func Setup(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc 
 	app.GET("/invocations/:id", handler.InvocationShow(cfg, db))
 	app.GET("/functions/new", handler.NewFunction(cfg, db))
 	app.POST("/functions", handler.CreateFuncion(cfg, db))
+	app.GET("/api_tokens", handler.APITokens(cfg, db))
 }

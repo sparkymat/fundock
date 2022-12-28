@@ -14,6 +14,7 @@
             <a href="/" class="uk-navbar-item uk-logo uk-margin-small-left">fundock</a>
             <ul class="uk-navbar-nav">
                 <li class="uk-parent"><a href="/functions">Functions</a></li>
+                <li class="uk-parent"><a href="/api_tokens">API Tokens</a></li>
             </ul>
         </div>
       </nav>
