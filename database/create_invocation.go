@@ -3,16 +3,15 @@ package database
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/sparkymat/fundock/model"
 )
 
-func (s *Service) CreateInvocation(ctx context.Context, fn model.Function, input *string, executedAt time.Time) (*string, error) {
+func (s *Service) CreateInvocation(ctx context.Context, fn model.Function, input *string) (*string, error) {
 	sqlString := `INSERT INTO invocations
-	(function_name, function_id, image, input, executed_at)
+	(function_name, function_id, image, input)
 	VALUES
-	($1, $2, $3, $4, $5)
+	($1, $2, $3, $4)
 	RETURNING id
 	`
 
@@ -24,7 +23,6 @@ func (s *Service) CreateInvocation(ctx context.Context, fn model.Function, input
 		fn.ID,
 		fn.Image,
 		input,
-		executedAt,
 	).Scan(
 		&invocationID,
 	); err != nil {

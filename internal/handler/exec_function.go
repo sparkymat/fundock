@@ -35,31 +35,43 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 		}
 
 		input := inputBuffer.String()
-		executionStartedAt := time.Now()
 
 		invocationID, err := db.CreateInvocation(
 			c.Request().Context(),
 			*fn,
 			&input,
-			executionStartedAt,
 		)
 		if err != nil {
 			c.Logger().Errorf("db.CreateInvocation failed with err: %v", err)
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to create invocation db entry")
 		}
 
-		output, err := dockerSvc.Run(c.Request().Context(), fn.Image, input)
+		executionStartedAt := time.Now()
+
+		err = db.UpdateInvocationStarted(c.Request().Context(), *invocationID, executionStartedAt)
 		if err != nil {
-			c.Logger().Errorf("docker.Run failed with err: %v", err)
-			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to run function")
+			c.Logger().Errorf("db.UpdateInvocationStarted failed with err: %v", err)
+			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to update invocation started")
 		}
 
+		output, err := dockerSvc.Run(c.Request().Context(), fn.Image, input)
 		executionEndedAt := time.Now()
-
-		err = db.UpdateInvocation(c.Request().Context(), *invocationID, &output, executionEndedAt.Sub(executionStartedAt).Milliseconds())
 		if err != nil {
-			c.Logger().Errorf("db.UpdateInvocation failed with err: %v", err)
-			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to update invocation db entry")
+			errorMessage := err.Error()
+			err = db.UpdateInvocationFailed(c.Request().Context(), *invocationID, executionEndedAt, &errorMessage)
+			if err != nil {
+				c.Logger().Errorf("db.UpdateInvocationFailed failed with err: %v", err)
+				return echo.NewHTTPError(http.StatusInternalServerError, "Failed to update invocation failed")
+			}
+
+			c.Logger().Errorf("docker.Run failed with err: %v", err)
+			return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/fn/%v", fn.Name))
+		}
+
+		err = db.UpdateInvocationSucceeded(c.Request().Context(), *invocationID, executionEndedAt, &output)
+		if err != nil {
+			c.Logger().Errorf("db.UpdateInvocationSucceeded failed with err: %v", err)
+			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to update invocation succeeded")
 		}
 
 		return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/fn/%v", fn.Name))
