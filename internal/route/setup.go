@@ -40,4 +40,5 @@ func Setup(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc 
 	e.Static("/fonts", "public/fonts")
 
 	setupWebRoutes(e, cfg, db, dockerSvc)
+	setupAPIRoutes(e, cfg, db, dockerSvc)
 }

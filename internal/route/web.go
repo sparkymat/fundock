@@ -10,22 +10,22 @@ import (
 )
 
 func setupWebRoutes(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) {
-	app := e.Group("")
+	webApp := e.Group("")
 
-	app.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+	webApp.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
-	app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+	webApp.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 		TokenLookup: "form:csrf",
 	}))
 
-	app.GET("/", handler.Home(cfg, db))
-	app.GET("/functions", handler.Functions(cfg, db))
-	app.GET("/fn/:name", handler.FunctionShow(cfg, db))
-	app.POST("/exec/:name", handler.ExecFunction(cfg, db, dockerSvc))
-	app.GET("/invocations/:id", handler.InvocationShow(cfg, db))
-	app.GET("/functions/new", handler.NewFunction(cfg, db))
-	app.POST("/functions", handler.CreateFuncion(cfg, db))
-	app.GET("/api_tokens", handler.APITokens(cfg, db))
-	app.POST("/api_tokens", handler.CreateAPIToken(cfg, db))
+	webApp.GET("/", handler.Home(cfg, db))
+	webApp.GET("/functions", handler.Functions(cfg, db))
+	webApp.GET("/fn/:name", handler.FunctionShow(cfg, db))
+	webApp.POST("/exec/:name", handler.ExecFunction(cfg, db, dockerSvc))
+	webApp.GET("/invocations/:id", handler.InvocationShow(cfg, db))
+	webApp.GET("/functions/new", handler.NewFunction(cfg, db))
+	webApp.POST("/functions", handler.CreateFuncion(cfg, db))
+	webApp.GET("/api_tokens", handler.APITokens(cfg, db))
+	webApp.POST("/api_tokens", handler.CreateAPIToken(cfg, db))
 }
