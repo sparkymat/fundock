@@ -21,4 +21,5 @@ type DBAPI interface {
 	FetchAPITokens(ctx context.Context, pageNumber uint32, pageSize uint32) ([]model.APIToken, error)
 	CreateAPIToken(ctx context.Context, clientName string, token string) (*string, error)
 	DeleteAPIToken(ctx context.Context, id string) error
+	FetchAPIToken(ctx context.Context, tokenString string) (*model.APIToken, error)
 }
