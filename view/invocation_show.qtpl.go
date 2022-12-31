@@ -30,111 +30,136 @@ func StreamInvocationShow(qw422016 *qt422016.Writer, inv presenter.Invocation, f
 	qw422016.E().S(inv.ID)
 //line view/invocation_show.qtpl:5
 	qw422016.N().S(`</h3>
-    `)
-//line view/invocation_show.qtpl:6
+    <table class="uk-table uk-table-striped uk-width-1-1">
+      <tbody>
+        <tr>
+          <th>Function</th>
+          <td>
+            `)
+//line view/invocation_show.qtpl:11
 	if fn != nil {
-//line view/invocation_show.qtpl:6
+//line view/invocation_show.qtpl:11
 		qw422016.N().S(`
-      <a href="/fn/`)
-//line view/invocation_show.qtpl:7
+              <a href="/fn/`)
+//line view/invocation_show.qtpl:12
 		qw422016.E().S(fn.Name)
-//line view/invocation_show.qtpl:7
+//line view/invocation_show.qtpl:12
 		qw422016.N().S(`">
-    `)
-//line view/invocation_show.qtpl:8
+            `)
+//line view/invocation_show.qtpl:13
 	}
-//line view/invocation_show.qtpl:8
+//line view/invocation_show.qtpl:13
 	qw422016.N().S(`
-    <p class="uk-margin-small">
-      <span uk-icon="info"></span>
-      `)
-//line view/invocation_show.qtpl:11
+            `)
+//line view/invocation_show.qtpl:14
 	qw422016.E().S(inv.FunctionName)
-//line view/invocation_show.qtpl:11
+//line view/invocation_show.qtpl:14
 	qw422016.N().S(`
-    </p>
-    `)
-//line view/invocation_show.qtpl:13
+            `)
+//line view/invocation_show.qtpl:15
 	if fn != nil {
-//line view/invocation_show.qtpl:13
+//line view/invocation_show.qtpl:15
 		qw422016.N().S(`
-      </a>
-    `)
-//line view/invocation_show.qtpl:15
+              </a>
+            `)
+//line view/invocation_show.qtpl:17
 	}
-//line view/invocation_show.qtpl:15
+//line view/invocation_show.qtpl:17
 	qw422016.N().S(`
+          </td>
+        </tr>
+        <tr>
+          <th>Image</th>
+          <td>
+            <span uk-icon="info"></span>
+            `)
+//line view/invocation_show.qtpl:24
+	qw422016.E().S(inv.Image)
+//line view/invocation_show.qtpl:24
+	qw422016.N().S(`
+          </td>
+        </tr>
+        <tr>
+          <th>Client</th>
+          <td>`)
+//line view/invocation_show.qtpl:29
+	qw422016.E().S(inv.ClientName)
+//line view/invocation_show.qtpl:29
+	qw422016.N().S(`</td>
+        </tr>
+      </tbody>
+    </table>
     <h3>Input</h3>
     `)
-//line view/invocation_show.qtpl:17
+//line view/invocation_show.qtpl:34
 	if inv.Input != nil {
-//line view/invocation_show.qtpl:17
+//line view/invocation_show.qtpl:34
 		qw422016.N().S(`
       <pre>`)
-//line view/invocation_show.qtpl:18
+//line view/invocation_show.qtpl:35
 		qw422016.E().S(*inv.Input)
-//line view/invocation_show.qtpl:18
+//line view/invocation_show.qtpl:35
 		qw422016.N().S(`</pre>
     `)
-//line view/invocation_show.qtpl:19
+//line view/invocation_show.qtpl:36
 	} else {
-//line view/invocation_show.qtpl:19
+//line view/invocation_show.qtpl:36
 		qw422016.N().S(`
       <p>No input</p>
     `)
-//line view/invocation_show.qtpl:21
+//line view/invocation_show.qtpl:38
 	}
-//line view/invocation_show.qtpl:21
+//line view/invocation_show.qtpl:38
 	qw422016.N().S(`
     <h3>Output</h3>
     `)
-//line view/invocation_show.qtpl:23
+//line view/invocation_show.qtpl:40
 	if inv.Output != nil {
-//line view/invocation_show.qtpl:23
+//line view/invocation_show.qtpl:40
 		qw422016.N().S(`
       <pre>`)
-//line view/invocation_show.qtpl:24
+//line view/invocation_show.qtpl:41
 		qw422016.E().S(*inv.Output)
-//line view/invocation_show.qtpl:24
+//line view/invocation_show.qtpl:41
 		qw422016.N().S(`</pre>
     `)
-//line view/invocation_show.qtpl:25
+//line view/invocation_show.qtpl:42
 	} else {
-//line view/invocation_show.qtpl:25
+//line view/invocation_show.qtpl:42
 		qw422016.N().S(`
       <p>No output</p>
     `)
-//line view/invocation_show.qtpl:27
+//line view/invocation_show.qtpl:44
 	}
-//line view/invocation_show.qtpl:27
+//line view/invocation_show.qtpl:44
 	qw422016.N().S(`
   </div>
 `)
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 }
 
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 func WriteInvocationShow(qq422016 qtio422016.Writer, inv presenter.Invocation, fn *presenter.Function) {
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 	StreamInvocationShow(qw422016, inv, fn)
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 	qt422016.ReleaseWriter(qw422016)
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 }
 
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 func InvocationShow(inv presenter.Invocation, fn *presenter.Function) string {
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 	qb422016 := qt422016.AcquireByteBuffer()
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 	WriteInvocationShow(qb422016, inv, fn)
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 	qs422016 := string(qb422016.B)
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 	qt422016.ReleaseByteBuffer(qb422016)
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 	return qs422016
-//line view/invocation_show.qtpl:29
+//line view/invocation_show.qtpl:46
 }

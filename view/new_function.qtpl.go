@@ -30,10 +30,10 @@ func StreamNewFunction(qw422016 *qt422016.Writer, csrfToken string) {
 //line view/new_function.qtpl:5
 	qw422016.N().S(`">
       <div class="uk-form-controls">
-        <input class="uk-input" id="form-stacked-text" type="text" name="name" placeholder="Enter name e.g. hello">
+        <input class="uk-input" id="name" type="text" name="name" placeholder="Enter name e.g. hello" required>
       </div>
       <div class="uk-form-controls uk-margin-top">
-        <input class="uk-input" id="form-stacked-text" type="text" name="image" placeholder="Enter image. e.g docker.io/hello-world:latest">
+        <input class="uk-input" id="image" type="text" name="image" placeholder="Enter image. e.g docker.io/hello-world:latest" required>
       </div>
       <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
         <label><input class="uk-checkbox" type="checkbox" name="skip_logging"> Skip logging?</label>

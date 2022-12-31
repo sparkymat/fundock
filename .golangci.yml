@@ -17,6 +17,8 @@ linters:
 linters-settings:
   lll:
     line-length: 160
+  cyclop:
+    max-complexity: 12
   revive:
     ignore-generated-header: true
     severity: error

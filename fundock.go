@@ -7,7 +7,7 @@ import (
 	"github.com/sparkymat/fundock/config"
 	"github.com/sparkymat/fundock/database"
 	"github.com/sparkymat/fundock/docker"
-	"github.com/sparkymat/fundock/route"
+	"github.com/sparkymat/fundock/internal/route"
 )
 
 func main() {
