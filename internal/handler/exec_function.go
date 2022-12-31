@@ -27,11 +27,18 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to intiialize runner")
 		}
 
-		invocationID, _, err := functionRunner.ExecFunction(c.Request().Context(), name, "web", input)
+		fn, invocationID, err := functionRunner.SetupFunction(c.Request().Context(), name, "web", input)
 		if err != nil {
-			c.Logger().Warnf("failed to run function. err: %w", err)
+			c.Logger().Warnf("failed to setup function. err: %w", err)
 
-			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to run function")
+			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to setup function")
+		}
+
+		_, err = functionRunner.ExecFunction(c.Request().Context(), fn, *invocationID, input)
+		if err != nil {
+			c.Logger().Warnf("failed to exec function. err: %w", err)
+
+			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to exec function")
 		}
 
 		//nolint:wrapcheck

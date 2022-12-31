@@ -42,11 +42,20 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 			})
 		}
 
-		invocationID, output, err := functionRunner.ExecFunction(c.Request().Context(), name, clientName, requestBody.String())
+		fn, invocationID, err := functionRunner.SetupFunction(c.Request().Context(), name, clientName, requestBody.String())
 		if err != nil {
 			//nolint:wrapcheck
 			return c.JSON(http.StatusInternalServerError, map[string]any{
-				"error":         "failed to run function",
+				"error":         "failed to setup function",
+				"internalError": err.Error(),
+			})
+		}
+
+		output, err := functionRunner.ExecFunction(c.Request().Context(), fn, *invocationID, requestBody.String())
+		if err != nil {
+			//nolint:wrapcheck
+			return c.JSON(http.StatusInternalServerError, map[string]any{
+				"error":         "failed to exec function",
 				"internalError": err.Error(),
 			})
 		}
