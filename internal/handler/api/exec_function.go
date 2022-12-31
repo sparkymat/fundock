@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/sparkymat/fundock/auth"
 	"github.com/sparkymat/fundock/config/configiface"
 	"github.com/sparkymat/fundock/database/dbiface"
 	"github.com/sparkymat/fundock/docker/dockeriface"
@@ -15,6 +16,8 @@ import (
 
 func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
+		clientName, _ := c.Get(auth.ClientNameKey).(string)
+
 		name := c.Param("name")
 
 		var requestBody bytes.Buffer
@@ -35,7 +38,7 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 			})
 		}
 
-		invocationID, output, err := functionRunner.ExecFunction(c.Request().Context(), name, requestBody.String())
+		invocationID, output, err := functionRunner.ExecFunction(c.Request().Context(), name, clientName, requestBody.String())
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]any{
 				"error":         "failed to run function",

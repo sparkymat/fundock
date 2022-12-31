@@ -11,7 +11,7 @@ type DBAPI interface {
 	AutoMigrate() error
 	FetchFunctions(ctx context.Context, pageSize uint32, pageNumber uint32) ([]model.Function, error)
 	FetchFunction(ctx context.Context, name string) (*model.Function, error)
-	CreateInvocation(ctx context.Context, fn model.Function, input *string) (*string, error)
+	CreateInvocation(ctx context.Context, fn model.Function, clientName string, input *string) (*string, error)
 	UpdateInvocationStarted(ctx context.Context, id string, startedAt time.Time) error
 	UpdateInvocationSucceeded(ctx context.Context, id string, endedAt time.Time, output *string) error
 	UpdateInvocationFailed(ctx context.Context, id string, endedAt time.Time, errorMessage *string) error

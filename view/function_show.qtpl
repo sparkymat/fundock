@@ -26,6 +26,7 @@
     <table class="uk-table uk-table-striped">
       <thead>
         <th>ID</th>
+        <th>Client</th>
         <th>Status</th>
         <th>Timestamp</th>
         <th>Duration</th>
@@ -34,6 +35,7 @@
         {% for _, in := range invocations %}
           <tr>
             <td><a href="/invocations/{%s in.ID %}">{%s in.ID %}</a></td>
+            <td>{%s in.ClientName %}</td>
             <td>{%s in.Status %}</td>
             <td>{%s in.Timestamp %}</td>
             <td>{%s in.Duration %}</td>

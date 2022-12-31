@@ -12,6 +12,7 @@ type Invocation struct {
 	Status       string
 	Timestamp    string
 	Duration     string
+	ClientName   string
 	Input        *string
 	Output       *string
 }
@@ -21,6 +22,7 @@ func InvocationFromModel(in model.Invocation) Invocation {
 		ID:           in.ID,
 		FunctionName: in.FunctionName,
 		Status:       string(in.Status),
+		ClientName:   in.ClientName,
 	}
 
 	if in.StartedAt != nil {

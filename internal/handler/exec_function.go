@@ -40,6 +40,7 @@ func ExecFunction(_ configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockerifa
 		invocationID, err := db.CreateInvocation(
 			c.Request().Context(),
 			*fn,
+			"web",
 			loggedInput,
 		)
 		if err != nil {

@@ -20,6 +20,7 @@ type Invocation struct {
 	FunctionName string           `db:"function_name"`
 	FunctionID   sql.NullString   `db:"function_id"`
 	Image        string           `db:"image"`
+	ClientName   string           `db:"client_name"`
 	Input        sql.NullString   `db:"input"`
 	Output       sql.NullString   `db:"output"`
 	ErrorMessage sql.NullString   `db:"error_message"`

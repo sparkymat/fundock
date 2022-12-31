@@ -7,11 +7,11 @@ import (
 	"github.com/sparkymat/fundock/model"
 )
 
-func (s *Service) CreateInvocation(ctx context.Context, fn model.Function, input *string) (*string, error) {
+func (s *Service) CreateInvocation(ctx context.Context, fn model.Function, clientName string, input *string) (*string, error) {
 	sqlString := `INSERT INTO invocations
-	(function_name, function_id, image, input)
+	(function_name, function_id, image, client_name, input)
 	VALUES
-	($1, $2, $3, $4)
+	($1, $2, $3, $4, $5)
 	RETURNING id
 	`
 
@@ -22,6 +22,7 @@ func (s *Service) CreateInvocation(ctx context.Context, fn model.Function, input
 		fn.Name,
 		fn.ID,
 		fn.Image,
+		clientName,
 		input,
 	).Scan(
 		&invocationID,

@@ -29,7 +29,7 @@ type Service struct {
 	dockerSvc dockeriface.DockerAPI
 }
 
-func (s *Service) ExecFunction(ctx context.Context, functionName string, input string) (*string, *string, error) {
+func (s *Service) ExecFunction(ctx context.Context, functionName string, clientName string, input string) (*string, *string, error) {
 	// Fetch the function
 	fn, err := s.db.FetchFunction(ctx, functionName)
 	if err != nil || fn == nil {
@@ -50,6 +50,7 @@ func (s *Service) ExecFunction(ctx context.Context, functionName string, input s
 	invocationID, err := s.db.CreateInvocation(
 		ctx,
 		*fn,
+		clientName,
 		loggedInput,
 	)
 	if err != nil {
