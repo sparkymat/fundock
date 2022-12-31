@@ -10,7 +10,7 @@ import (
 	"github.com/sparkymat/fundock/database/dbiface"
 )
 
-func CreateAPIToken(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
+func CreateAPIToken(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		clientName := c.FormValue("client_name")
 		token := strings.ToLower(ulid.Make().String())

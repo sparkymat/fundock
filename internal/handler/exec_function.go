@@ -11,7 +11,6 @@ import (
 	"github.com/sparkymat/fundock/services/runner"
 )
 
-//nolint:funlen,revive,cyclop
 func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		name := c.Param("name")
@@ -24,12 +23,14 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 		functionRunner, err := runner.New(cfg, db, dockerSvc)
 		if err != nil {
 			c.Logger().Warnf("failed to create runner. err: %w", err)
+
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to intiialize runner")
 		}
 
 		invocationID, _, err := functionRunner.ExecFunction(c.Request().Context(), name, "web", input)
 		if err != nil {
 			c.Logger().Warnf("failed to run function. err: %w", err)
+
 			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to run function")
 		}
 

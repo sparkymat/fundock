@@ -23,8 +23,10 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 		var requestBody bytes.Buffer
 
 		defer c.Request().Body.Close()
+
 		_, err := io.Copy(&requestBody, c.Request().Body)
 		if err != nil {
+			//nolint:wrapcheck
 			return c.JSON(http.StatusUnprocessableEntity, map[string]string{
 				"error": "failed to read request body",
 			})
@@ -33,6 +35,8 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 		functionRunner, err := runner.New(cfg, db, dockerSvc)
 		if err != nil {
 			c.Logger().Warnf("failed to create runner. err: %w", err)
+
+			//nolint:wrapcheck
 			return c.JSON(http.StatusInternalServerError, map[string]string{
 				"error": "failed to initialize runner",
 			})
@@ -40,6 +44,7 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 
 		invocationID, output, err := functionRunner.ExecFunction(c.Request().Context(), name, clientName, requestBody.String())
 		if err != nil {
+			//nolint:wrapcheck
 			return c.JSON(http.StatusInternalServerError, map[string]any{
 				"error":         "failed to run function",
 				"internalError": err.Error(),
@@ -48,6 +53,7 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 
 		invocation, err := db.FetchInvocation(c.Request().Context(), *invocationID)
 		if err != nil {
+			//nolint:wrapcheck
 			return c.JSON(http.StatusInternalServerError, map[string]any{
 				"error": "failed to run function",
 			})
@@ -55,6 +61,8 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 
 		presentedInvocation := presenter.InvocationFromModel(*invocation)
 		presentedInvocation.Output = output
+
+		//nolint:wrapcheck
 		return c.JSON(http.StatusOK, presentedInvocation)
 	}
 }

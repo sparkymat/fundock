@@ -11,9 +11,7 @@ import (
 	"github.com/sparkymat/fundock/docker/dockeriface"
 )
 
-var (
-	ErrDBFailure = errors.New("db failure")
-)
+var ErrDBFailure = errors.New("db failure")
 
 func New(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) (*Service, error) {
 	return &Service{
@@ -29,6 +27,7 @@ type Service struct {
 	dockerSvc dockeriface.DockerAPI
 }
 
+//nolint:funlen
 func (s *Service) ExecFunction(ctx context.Context, functionName string, clientName string, input string) (*string, *string, error) {
 	// Fetch the function
 	fn, err := s.db.FetchFunction(ctx, functionName)

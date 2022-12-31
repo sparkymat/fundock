@@ -10,7 +10,7 @@ import (
 	"github.com/sparkymat/fundock/view"
 )
 
-func APITokens(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
+func APITokens(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		csrfToken := GetCSRFToken(c)
 

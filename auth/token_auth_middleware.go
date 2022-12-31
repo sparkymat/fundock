@@ -10,11 +10,12 @@ import (
 
 const ClientNameKey = "client_name"
 
-func TokenAuthMiddleware(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.MiddlewareFunc {
+func TokenAuthMiddleware(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			tokenString := c.Request().Header.Get("X-API-Key")
 			if tokenString == "" {
+				//nolint:wrapcheck
 				return c.JSON(http.StatusUnauthorized, map[string]string{
 					"error": "token not found",
 				})
@@ -22,6 +23,7 @@ func TokenAuthMiddleware(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.Middl
 
 			apiToken, err := db.FetchAPIToken(c.Request().Context(), tokenString)
 			if err != nil {
+				//nolint:wrapcheck
 				return c.JSON(http.StatusUnauthorized, map[string]string{
 					"error": "token load failed",
 				})
