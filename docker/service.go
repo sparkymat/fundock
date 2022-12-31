@@ -54,5 +54,10 @@ func (s *Service) Run(ctx context.Context, image string, input string) (string, 
 		return "", err
 	}
 
+	err = s.removeContainer(ctx, containerID)
+	if err != nil {
+		return "", err
+	}
+
 	return response, err
 }
