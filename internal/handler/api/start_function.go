@@ -14,7 +14,7 @@ import (
 	"github.com/sparkymat/fundock/services/runner"
 )
 
-func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) echo.HandlerFunc {
+func StartFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		clientName, _ := c.Get(auth.ClientNameKey).(string)
 
@@ -51,14 +51,8 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 			})
 		}
 
-		output, err := functionRunner.ExecFunction(c.Request().Context(), fn, *invocationID, requestBody.String())
-		if err != nil {
-			//nolint:wrapcheck
-			return c.JSON(http.StatusInternalServerError, map[string]any{
-				"error":         "failed to exec function",
-				"internalError": err.Error(),
-			})
-		}
+		//nolint:errcheck
+		go functionRunner.ExecFunction(c.Request().Context(), fn, *invocationID, requestBody.String())
 
 		invocation, err := db.FetchInvocation(c.Request().Context(), *invocationID)
 		if err != nil {
@@ -69,7 +63,6 @@ func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 		}
 
 		presentedInvocation := presenter.InvocationFromModel(*invocation)
-		presentedInvocation.Output = output
 
 		//nolint:wrapcheck
 		return c.JSON(http.StatusOK, presentedInvocation)
