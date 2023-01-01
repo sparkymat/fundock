@@ -9,7 +9,7 @@ import (
 	"github.com/sparkymat/fundock/presenter"
 )
 
-func InvocationShow(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
+func InvocationShow(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
 		if id == "" {

@@ -51,14 +51,8 @@ func StartFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc docker
 			})
 		}
 
+		//nolint:errcheck
 		go functionRunner.ExecFunction(c.Request().Context(), fn, *invocationID, requestBody.String())
-		if err != nil {
-			//nolint:wrapcheck
-			return c.JSON(http.StatusInternalServerError, map[string]any{
-				"error":         "failed to exec function",
-				"internalError": err.Error(),
-			})
-		}
 
 		invocation, err := db.FetchInvocation(c.Request().Context(), *invocationID)
 		if err != nil {
