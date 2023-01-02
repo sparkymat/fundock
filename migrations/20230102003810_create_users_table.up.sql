@@ -1,6 +1,7 @@
 CREATE TABLE users (
   id uuid DEFAULT uuid_generate_v4 (),
   username TEXT NOT NULL UNIQUE,
+  encrypted_password TEXT NOT NULL,
   email TEXT,
   name TEXT,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
