@@ -46,6 +46,10 @@ func (s *Service) DBConnectionString() string {
 	return strings.Join(connFragments, " ")
 }
 
+func (s *Service) SingleUser() bool {
+	return s.envConfig.SingleUser
+}
+
 type envConfig struct {
 	DBHostname string `env:"DB_HOSTNAME,required"`
 	DBPort     int64  `env:"DB_PORT,required"`
@@ -53,4 +57,5 @@ type envConfig struct {
 	DBPassword string `env:"DB_PASSWORD"`
 	DBDatabase string `env:"DB_DATABASE,required"`
 	DBSSLMode  bool   `env:"DB_SSL_MODE"`
+	SingleUser bool   `env:"SINGLE_USER"`
 }
