@@ -71,7 +71,7 @@ func ensureAdminUser(db dbiface.DBAPI) error {
 
 	encryptedPasswordBytes, err := bcrypt.GenerateFromPassword([]byte(password), 10)
 	if err != nil {
-		return err
+		return err //nolint:wrapcheck
 	}
 
 	_, err = db.CreateUser(
@@ -82,7 +82,7 @@ func ensureAdminUser(db dbiface.DBAPI) error {
 		nil,
 	)
 
-	return err
+	return err //nolint:wrapcheck
 }
 
 func generateRandomPassword() (string, error) {
@@ -95,7 +95,7 @@ func generateRandomPassword() (string, error) {
 	for charsLeft > 0 {
 		position, err := rand.Int(rand.Reader, big.NewInt(int64(len(characters))))
 		if err != nil {
-			return "", err
+			return "", err //nolint:wrapcheck
 		}
 
 		posInt := int(position.Int64())
