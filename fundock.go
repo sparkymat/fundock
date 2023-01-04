@@ -61,7 +61,7 @@ func ensureAdminUser(db dbiface.DBAPI) error {
 	}
 
 	if !errors.Is(err, sql.ErrNoRows) {
-		return err
+		return err //nolint:wrapcheck
 	}
 
 	password, err := generateRandomPassword()
@@ -69,7 +69,7 @@ func ensureAdminUser(db dbiface.DBAPI) error {
 		return err
 	}
 
-	encryptedPasswordBytes, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+	encryptedPasswordBytes, err := bcrypt.GenerateFromPassword([]byte(password), 10) //nolint:gomnd
 	if err != nil {
 		return err //nolint:wrapcheck
 	}

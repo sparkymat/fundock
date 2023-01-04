@@ -3,6 +3,8 @@ package route
 import (
 	"net/http"
 
+	"github.com/gorilla/sessions"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sparkymat/fundock/auth"
@@ -21,12 +23,18 @@ func setupWebRoutes(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, d
 	webApp.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 		TokenLookup: "form:csrf",
 	}))
+	webApp.Use(session.Middleware(sessions.NewCookieStore([]byte(cfg.SessionSecret()))))
 
 	webApp.GET("/login", func(c echo.Context) error {
-		return c.String(http.StatusOK, "login")
+		return c.String(http.StatusOK, "login") //nolint:wrapcheck
 	})
 
 	authenticatedWebApp := webApp.Group("")
+
+	if cfg.SingleUser() {
+		authenticatedWebApp.Use(auth.AdminTokenInjector(cfg, db))
+	}
+
 	authenticatedWebApp.Use(auth.SessionMiddleware(cfg, db))
 
 	authenticatedWebApp.GET("/", handler.Home(cfg, db))
