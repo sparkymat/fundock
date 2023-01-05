@@ -22,7 +22,12 @@ func FunctionCreate(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFun
 			return renderError(c, http.StatusUnprocessableEntity, "invalid input")
 		}
 
-		_, err := db.CreateFunction(c.Request().Context(), input.Name, input.Image, input.SkipLogging)
+		_, err := db.FetchFunction(c.Request().Context(), input.Name)
+		if err == nil {
+			return renderError(c, http.StatusUnprocessableEntity, "function with name already exists")
+		}
+
+		_, err = db.CreateFunction(c.Request().Context(), input.Name, input.Image, input.SkipLogging)
 		if err != nil {
 			c.Logger().Errorf("db.CreateFunction failed with err: %v", err)
 
