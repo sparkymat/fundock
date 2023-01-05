@@ -7,7 +7,7 @@ import (
 	"github.com/sparkymat/fundock/jwt"
 )
 
-func AdminTokenInjector(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.MiddlewareFunc {
+func AdminTokenInjector(cfg configiface.ConfigAPI, _ dbiface.DBAPI) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			sess, err := LoadSession(c)
