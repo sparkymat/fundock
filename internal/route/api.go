@@ -16,7 +16,7 @@ func setupAPIRoutes(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, d
 	apiApp.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
-	apiApp.Use(auth.TokenAuthMiddleware(cfg, db))
+	apiApp.Use(auth.TokenOrSessionAuthMiddleware(cfg, db))
 
 	apiApp.POST("/exec/:name", api.FunctionExec(cfg, db, dockerSvc))
 	apiApp.POST("/start/:name", api.FunctionStart(cfg, db, dockerSvc))
