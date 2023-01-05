@@ -16,6 +16,14 @@ https://user-images.githubusercontent.com/104314/209816472-be790e41-11ce-4629-bc
 
 Some useful functions can be found at https://github.com/sparkymat/fundock-functions
 
+## Auth
+
+Currently, the web app provides limited authentication options. The current options are:
+
+### Single user mode
+
+This is ideal for small setups where the web app does not need to be protected. It automatically logs the user in as an `admin` user. A user with the username `admin` is automatically injected into the database. To enable this mode, the user needs to set the `SINGLE_USER` environment variable to `1`.
+
 ## API
 
 `fundock` provides an API which is documented [here](API.md).
