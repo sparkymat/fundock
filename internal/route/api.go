@@ -18,7 +18,8 @@ func setupAPIRoutes(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, d
 	}))
 	apiApp.Use(auth.TokenAuthMiddleware(cfg, db))
 
-	apiApp.POST("/exec/:name", api.ExecFunction(cfg, db, dockerSvc))
-	apiApp.POST("/start/:name", api.StartFunction(cfg, db, dockerSvc))
+	apiApp.POST("/exec/:name", api.FunctionExec(cfg, db, dockerSvc))
+	apiApp.POST("/start/:name", api.FunctionStart(cfg, db, dockerSvc))
 	apiApp.GET("/invocations/:id", api.InvocationShow(cfg, db))
+	apiApp.POST("/functions", api.FunctionCreate(cfg, db))
 }

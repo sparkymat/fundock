@@ -3,10 +3,10 @@ package presenter
 import "github.com/sparkymat/fundock/model"
 
 type Invocation struct {
-	ID          string
-	StartedTime *string
-	EndedTime   *string
-	Output      *string
+	ID          string  `json:"id"`
+	StartedTime *string `json:"started_time"`
+	EndedTime   *string `json:"ended_time"`
+	Output      *string `json:"output"`
 }
 
 func InvocationFromModel(inv model.Invocation) Invocation {
