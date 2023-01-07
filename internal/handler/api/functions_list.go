@@ -10,9 +10,9 @@ import (
 )
 
 type FunctionsListInput struct {
-	PageSize   uint32 `json:"page_size"`
-	PageNumber uint32 `json:"page_number"`
-	Query      string `json:"query"`
+	PageSize   uint32 `query:"page_size"`
+	PageNumber uint32 `query:"page_number"`
+	Query      string `query:"query"`
 }
 
 func FunctionsList(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
