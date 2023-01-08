@@ -24,4 +24,5 @@ func setupAPIRoutes(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, d
 	apiApp.POST("/functions", api.FunctionCreate(cfg, db))
 	apiApp.GET("/fn/:name", api.FunctionShow(cfg, db))
 	apiApp.GET("/functions", api.FunctionsList(cfg, db))
+	apiApp.GET("/invocations", api.InvocationsList(cfg, db))
 }

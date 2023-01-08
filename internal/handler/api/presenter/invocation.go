@@ -9,6 +9,12 @@ type Invocation struct {
 	Output      *string `json:"output"`
 }
 
+type InvocationsList struct {
+	PageNumber uint32       `json:"page_number"`
+	PageSize   uint32       `json:"page_size"`
+	Items      []Invocation `json:"items"`
+}
+
 func InvocationFromModel(inv model.Invocation) Invocation {
 	presentedInv := Invocation{
 		ID: inv.ID,
@@ -25,4 +31,18 @@ func InvocationFromModel(inv model.Invocation) Invocation {
 	}
 
 	return presentedInv
+}
+
+func InvocationsListFromModels(pageNumber uint32, pageSize uint32, invocations []model.Invocation) InvocationsList {
+	presentedList := InvocationsList{
+		PageNumber: pageNumber,
+		PageSize:   pageSize,
+		Items:      []Invocation{},
+	}
+
+	for _, inv := range invocations {
+		presentedList.Items = append(presentedList.Items, InvocationFromModel(inv))
+	}
+
+	return presentedList
 }

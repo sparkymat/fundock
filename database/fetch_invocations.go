@@ -7,7 +7,7 @@ import (
 	"github.com/sparkymat/fundock/model"
 )
 
-func (s *Service) FetchFunctionInvocations(ctx context.Context, functionID string, pageNumber uint32, pageSize uint32) ([]model.Invocation, error) {
+func (s *Service) FetchInvocations(ctx context.Context, pageNumber uint32, pageSize uint32) ([]model.Invocation, error) {
 	if pageSize == 0 || pageNumber == 0 {
 		return nil, ErrInvalidPagination
 	}
@@ -15,30 +15,29 @@ func (s *Service) FetchFunctionInvocations(ctx context.Context, functionID strin
 	offset := (pageNumber - 1) * pageSize
 
 	sqlString := `SELECT
-	inv.*
-FROM invocations inv
-WHERE inv.function_id = $1
-ORDER BY COALESCE(inv.ended_at, inv.started_at, inv.created_at) DESC
-OFFSET $2
-LIMIT $3
+	i.*
+FROM invocations i
+ORDER BY COALESCE(i.ended_at, i.started_at, i.created_at) DESC
+OFFSET $1
+LIMIT $2
 `
 
 	invocations := []model.Invocation{}
 
-	rows, err := s.conn.QueryxContext(ctx, sqlString, functionID, offset, pageSize)
+	rows, err := s.conn.QueryxContext(ctx, sqlString, offset, pageSize)
 	if err != nil {
 		return nil, fmt.Errorf("failed to run db query. err: %w", err)
 	}
 
 	for rows.Next() {
-		var in model.Invocation
+		var inv model.Invocation
 
-		err := rows.StructScan(&in)
+		err := rows.StructScan(&inv)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan db result. err: %w", err)
 		}
 
-		invocations = append(invocations, in)
+		invocations = append(invocations, inv)
 	}
 
 	return invocations, nil
