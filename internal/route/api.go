@@ -18,11 +18,13 @@ func setupAPIRoutes(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, d
 	}))
 	apiApp.Use(auth.TokenOrSessionAuthMiddleware(cfg, db))
 
+	apiApp.POST("/functions", api.FunctionCreate(cfg, db))
+	apiApp.GET("/functions", api.FunctionsList(cfg, db))
+	apiApp.GET("/fn/:name", api.FunctionShow(cfg, db))
+
 	apiApp.POST("/fn/:name/exec", api.FunctionExec(cfg, db, dockerSvc))
 	apiApp.POST("/fn/:name/start", api.FunctionStart(cfg, db, dockerSvc))
-	apiApp.GET("/invocations/:id", api.InvocationShow(cfg, db))
-	apiApp.POST("/functions", api.FunctionCreate(cfg, db))
-	apiApp.GET("/fn/:name", api.FunctionShow(cfg, db))
-	apiApp.GET("/functions", api.FunctionsList(cfg, db))
+
 	apiApp.GET("/invocations", api.InvocationsList(cfg, db))
+	apiApp.GET("/invocations/:id", api.InvocationShow(cfg, db))
 }
