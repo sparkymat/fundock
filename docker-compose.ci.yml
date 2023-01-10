@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  db:
+    image: docker.io/postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fundock
+      POSTGRES_DB: fundock
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - fundock_db:/var/lib/postgresql/data
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      DB_HOSTNAME: db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: fundock
+      DB_DATABASE: fundock
+      DB_SSL_MODE: false
+      SINGLE_USER: 1
+      JWT_SECRET: change-me
+      SESSION_SECRET: change-me
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"
+    links:
+      - db
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  fundock_db:
