@@ -15,8 +15,6 @@ tags:
     description: Everything about functions
   - name: invocations
     description: Record of function executions or invocations
-  - name: users
-    description: Operations about users
 paths:
   /api/functions:
     post:
@@ -24,7 +22,7 @@ paths:
         - functions
       summary: Add a new function
       description: Add a new function
-      operationId: addFunction
+      operationId: functionCreate
       requestBody:
         description: Create a new function
         content:
@@ -53,8 +51,241 @@ paths:
                 $ref: '#/components/schemas/internalServerError'
       security:
         - api_key: []
+    get:
+      tags:
+        - functions
+      summary: Get list of functions
+      description: Gets a paginated list of functions
+      operationId: functionsList
+      parameters:
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+          required: true
+          description: Size of the page to fetch
+        - name: page_number
+          in: query
+          schema:
+            type: integer
+          required: true
+          description: Page number to fetch
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/functionsList'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - api_key: []
+  /api/fn/{name}:
+    get:
+      tags:
+        - functions
+      summary: Fetch function details
+      description: Get details of the specified function
+      operationId: functionShow
+      parameters:
+        - name: name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: name of the function
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/function'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - api_key: []
+  /api/fn/{name}/exec:
+    post:
+      tags:
+        - functions
+      summary: Execute a function synchronously
+      description: Execute a function synchronously and get the output
+      operationId: functionExec
+      parameters:
+        - name: name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: name of the function
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invocation'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - api_key: []
+  /api/fn/{name}/start:
+    post:
+      tags:
+        - functions
+      summary: Execute a function asynchronously
+      description: Execute a function asynchronously
+      operationId: functionStart
+      parameters:
+        - name: name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: name of the function
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invocation'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - api_key: []
+  /api/invocations:
+    get:
+      tags:
+        - invocations
+      summary: Get list of invocations
+      description: Gets a paginated list of invocations
+      operationId: invocationsList
+      parameters:
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+          required: true
+          description: Size of the page to fetch
+        - name: page_number
+          in: query
+          schema:
+            type: integer
+          required: true
+          description: Page number to fetch
+        - name: fn
+          in: query
+          schema: 
+            type: string
+          required: false
+          description: Name of function to filter by
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invocationsList'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - api_key: []
+  /api/invocations/{id}:
+    get:
+      tags:
+        - invocations
+      summary: Get details of an invocation
+      description: Gets details of an invocation
+      operationId: invocationShow
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the invocation to fetch
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invocation'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalServerError'
+      security:
+        - api_key: []
 components:
   schemas:
+    invocationsList:
+      type: object
+      properties:
+        page_size:
+          type: integer
+          example: 20
+        page_number:
+          type: integer
+          example: 1
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/invocation'
+    invocation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: a-b-c-d
+        started_time:
+          type: string
+          format: date-time
+        ended_time:
+          type: string
+          format: date-time
+        output:
+          type: string
+    functionsList:
+      type: object
+      properties:
+        page_size:
+          type: integer
+          example: 20
+        page_number:
+          type: integer
+          example: 1
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/function'
     function:
       type: object
       properties:

@@ -26,4 +26,4 @@ This is ideal for small setups where the web app does not need to be protected. 
 
 ## API
 
-`fundock` provides an API which is documented [here](API.md).
+`fundock` provides an API which is documented [here](swagger.yml).
