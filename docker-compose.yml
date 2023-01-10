@@ -23,7 +23,7 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: fundock
       DB_DATABASE: fundock
-      DB_SSL_MODE: false
+      DB_SSL_MODE: "false"
       SINGLE_USER: 1
       JWT_SECRET: change-me
       SESSION_SECRET: change-me
