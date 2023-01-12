@@ -2,6 +2,7 @@ package presenter
 
 import "github.com/sparkymat/fundock/model"
 
+//nolint:tagliatelle
 type Function struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
@@ -9,6 +10,7 @@ type Function struct {
 	CreatedTime string `json:"created_time"`
 }
 
+//nolint:tagliatelle
 type FunctionsList struct {
 	PageNumber uint32     `json:"page_number"`
 	PageSize   uint32     `json:"page_size"`

@@ -9,13 +9,14 @@ import (
 	"github.com/sparkymat/fundock/internal/handler/api/presenter"
 )
 
+//nolint:tagliatelle
 type FunctionCreateInput struct {
 	Name        string `json:"name"`
 	Image       string `json:"image"`
 	SkipLogging bool   `json:"skip_logging"`
 }
 
-func FunctionCreate(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
+func FunctionCreate(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		input := &FunctionCreateInput{}
 		if err := c.Bind(input); err != nil {
@@ -43,6 +44,7 @@ func FunctionCreate(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFun
 
 		presentedFn := presenter.FunctionFromModel(*fn)
 
+		//nolint:wrapcheck
 		return c.JSON(http.StatusOK, presentedFn)
 	}
 }

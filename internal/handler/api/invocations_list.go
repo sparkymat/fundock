@@ -16,7 +16,7 @@ type InvocationsListInput struct {
 	Function   string `query:"fn"`
 }
 
-func InvocationsList(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
+func InvocationsList(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		input := &InvocationsListInput{}
 		if err := c.Bind(input); err != nil {
@@ -24,29 +24,35 @@ func InvocationsList(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFu
 		}
 
 		var invocations []model.Invocation
+
 		if input.Function != "" {
 			fn, err := db.FetchFunction(c.Request().Context(), input.Function)
 			if err != nil {
 				c.Logger().Errorf("db.FetchFunction failed with err: %v", err)
+
 				return renderError(c, http.StatusInternalServerError, "failed to load function")
 			}
 
 			invocations, err = db.FetchFunctionInvocations(c.Request().Context(), fn.ID, input.PageNumber, input.PageSize)
 			if err != nil {
 				c.Logger().Errorf("db.FetchFunctionInvocations failed with err: %v", err)
+
 				return renderError(c, http.StatusInternalServerError, "failed to load function invocations")
 			}
 		} else {
 			var err error
+
 			invocations, err = db.FetchInvocations(c.Request().Context(), input.PageNumber, input.PageSize)
 			if err != nil {
 				c.Logger().Errorf("db.FetchInvocations failed with err: %v", err)
+
 				return renderError(c, http.StatusInternalServerError, "failed to load invocations")
 			}
 		}
 
 		presentedInvocationsList := presenter.InvocationsListFromModels(input.PageNumber, input.PageSize, invocations)
 
+		//nolint:wrapcheck
 		return c.JSON(http.StatusOK, presentedInvocationsList)
 	}
 }

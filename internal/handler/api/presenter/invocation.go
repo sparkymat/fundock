@@ -2,6 +2,7 @@ package presenter
 
 import "github.com/sparkymat/fundock/model"
 
+//nolint:tagliatelle
 type Invocation struct {
 	ID          string  `json:"id"`
 	StartedTime *string `json:"started_time"`
@@ -9,6 +10,7 @@ type Invocation struct {
 	Output      *string `json:"output"`
 }
 
+//nolint:tagliatelle
 type InvocationsList struct {
 	PageNumber uint32       `json:"page_number"`
 	PageSize   uint32       `json:"page_size"`

@@ -11,7 +11,7 @@ import (
 	"github.com/sparkymat/fundock/internal/handler/api/presenter"
 )
 
-func FunctionShow(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
+func FunctionShow(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		name := c.Param("name")
 
@@ -26,6 +26,7 @@ func FunctionShow(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc 
 
 		presentedFn := presenter.FunctionFromModel(*fn)
 
+		//nolint:wrapcheck
 		return c.JSON(http.StatusOK, presentedFn)
 	}
 }

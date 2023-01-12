@@ -15,7 +15,7 @@ type FunctionsListInput struct {
 	Query      string `query:"query"`
 }
 
-func FunctionsList(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
+func FunctionsList(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		input := &FunctionsListInput{}
 		if err := c.Bind(input); err != nil {
@@ -25,11 +25,13 @@ func FunctionsList(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc
 		functions, err := db.FetchFunctions(c.Request().Context(), input.PageNumber, input.PageSize)
 		if err != nil {
 			c.Logger().Errorf("db.FetchFunctions failed with err: %v", err)
+
 			return renderError(c, http.StatusInternalServerError, "failed to load functions")
 		}
 
 		presentedFunctionsList := presenter.FunctionsListFromModels(input.PageNumber, input.PageSize, functions)
 
+		//nolint:wrapcheck
 		return c.JSON(http.StatusOK, presentedFunctionsList)
 	}
 }

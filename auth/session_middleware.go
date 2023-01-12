@@ -18,9 +18,7 @@ const (
 	tokenKey    = "auth_token"
 )
 
-var (
-	ErrTokenMissing = errors.New("token missing")
-)
+var ErrTokenMissing = errors.New("token missing")
 
 func SessionMiddleware(cfg configiface.ConfigAPI, db dbiface.DBAPI) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
@@ -43,12 +41,12 @@ func sessionAuth(cfg configiface.ConfigAPI, db dbiface.DBAPI, c echo.Context) er
 
 	username, err := jwt.ValidateTokenString(cfg.JWTSecret(), authToken)
 	if err != nil {
-		return err
+		return err //nolint:wrapcheck
 	}
 
 	user, err := db.FetchUser(c.Request().Context(), *username)
 	if err != nil {
-		return err
+		return err //nolint:wrapcheck
 	}
 
 	c.Set(UserKey, user)
