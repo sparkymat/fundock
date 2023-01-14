@@ -34,7 +34,7 @@ jobs:
           docker-compose -f docker-compose.ci.yml up -d
           sleep 3
           PGPASSWORD=fundock psql -h localhost -U postgres -w fundock < api-test/seed.sql
-          curl -H 'X-Api-Key: foobar' "http://localhost:8080/api/functions?page_size=20&page_number=1"
+          cd api-test && deno test --allow-net functions.ts
           docker-compose -f docker-compose.ci.yml down
   checks-passed:
     runs-on: ubuntu-latest
