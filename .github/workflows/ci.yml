@@ -28,6 +28,9 @@ jobs:
   api-test:
     runs-on: ubuntu-latest
     steps:
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: "~1.29"
       - uses: actions/checkout@v3
       - name: Run API tests
         run: |
