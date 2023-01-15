@@ -4,10 +4,12 @@ import "github.com/sparkymat/fundock/model"
 
 //nolint:tagliatelle
 type Invocation struct {
-	ID          string  `json:"id"`
-	StartedTime *string `json:"started_time"`
-	EndedTime   *string `json:"ended_time"`
-	Output      *string `json:"output"`
+	ID           string  `json:"id"`
+	FunctionName string  `json:"function_name"`
+	StartedTime  *string `json:"started_time"`
+	EndedTime    *string `json:"ended_time"`
+	Input        *string `json:"input"`
+	Output       *string `json:"output"`
 }
 
 //nolint:tagliatelle
@@ -19,7 +21,8 @@ type InvocationsList struct {
 
 func InvocationFromModel(inv model.Invocation) Invocation {
 	presentedInv := Invocation{
-		ID: inv.ID,
+		ID:           inv.ID,
+		FunctionName: inv.FunctionName,
 	}
 
 	if inv.StartedAt != nil {
@@ -30,6 +33,14 @@ func InvocationFromModel(inv model.Invocation) Invocation {
 	if inv.EndedAt != nil {
 		endedTime := inv.EndedAt.String()
 		presentedInv.EndedTime = &endedTime
+	}
+
+	if inv.Input.Valid {
+		presentedInv.Input = &inv.Input.String
+	}
+
+	if inv.Output.Valid {
+		presentedInv.Output = &inv.Output.String
 	}
 
 	return presentedInv
