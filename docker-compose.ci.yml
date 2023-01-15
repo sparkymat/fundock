@@ -12,10 +12,12 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    ports:
+      - "5432:5432"
     volumes:
       - fundock_db:/var/lib/postgresql/data
   app:
-    image: docker.io/sparkymat/fundock:latest
+    build: .
     restart: unless-stopped
     environment:
       DB_HOSTNAME: db

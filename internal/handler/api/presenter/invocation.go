@@ -2,16 +2,27 @@ package presenter
 
 import "github.com/sparkymat/fundock/model"
 
+//nolint:tagliatelle
 type Invocation struct {
-	ID          string
-	StartedTime *string
-	EndedTime   *string
-	Output      *string
+	ID           string  `json:"id"`
+	FunctionName string  `json:"function_name"`
+	StartedTime  *string `json:"started_time"`
+	EndedTime    *string `json:"ended_time"`
+	Input        *string `json:"input"`
+	Output       *string `json:"output"`
+}
+
+//nolint:tagliatelle
+type InvocationsList struct {
+	PageNumber uint32       `json:"page_number"`
+	PageSize   uint32       `json:"page_size"`
+	Items      []Invocation `json:"items"`
 }
 
 func InvocationFromModel(inv model.Invocation) Invocation {
 	presentedInv := Invocation{
-		ID: inv.ID,
+		ID:           inv.ID,
+		FunctionName: inv.FunctionName,
 	}
 
 	if inv.StartedAt != nil {
@@ -24,5 +35,27 @@ func InvocationFromModel(inv model.Invocation) Invocation {
 		presentedInv.EndedTime = &endedTime
 	}
 
+	if inv.Input.Valid {
+		presentedInv.Input = &inv.Input.String
+	}
+
+	if inv.Output.Valid {
+		presentedInv.Output = &inv.Output.String
+	}
+
 	return presentedInv
+}
+
+func InvocationsListFromModels(pageNumber uint32, pageSize uint32, invocations []model.Invocation) InvocationsList {
+	presentedList := InvocationsList{
+		PageNumber: pageNumber,
+		PageSize:   pageSize,
+		Items:      []Invocation{},
+	}
+
+	for _, inv := range invocations {
+		presentedList.Items = append(presentedList.Items, InvocationFromModel(inv))
+	}
+
+	return presentedList
 }

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gorilla/sessions"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sparkymat/fundock/config/configiface"
@@ -38,6 +40,8 @@ func Setup(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc 
 	e.Static("/css", "public/css")
 	e.Static("/js", "public/js")
 	e.Static("/fonts", "public/fonts")
+
+	e.Use(session.Middleware(sessions.NewCookieStore([]byte(cfg.SessionSecret()))))
 
 	setupWebRoutes(e, cfg, db, dockerSvc)
 	setupAPIRoutes(e, cfg, db, dockerSvc)

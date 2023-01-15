@@ -14,7 +14,7 @@ import (
 	"github.com/sparkymat/fundock/services/runner"
 )
 
-func ExecFunction(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) echo.HandlerFunc {
+func FunctionExec(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		clientName, _ := c.Get(auth.ClientNameKey).(string)
 
