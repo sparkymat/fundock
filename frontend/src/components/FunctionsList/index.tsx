@@ -1,16 +1,22 @@
+import { findNonSerializableValue } from '@reduxjs/toolkit';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { selectFunctionsListLoading } from '../../features/FunctionsList/selects';
-import { fetchFunctions } from '../../features/FunctionsList/slice';
+import fetchFunctions from '../../features/FunctionsList/fetchFunctions';
+import {
+  selectFunctions,
+  selectFunctionsListLoading,
+} from '../../features/FunctionsList/selects';
+import { AppDispatch } from '../../store';
 
 const FunctionsList = () => {
   const loading = useSelector(selectFunctionsListLoading);
+  const functions = useSelector(selectFunctions);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchFunctions());
+    dispatch(fetchFunctions({ page_number: 1, page_size: 20 }));
   }, []);
 
   return (
@@ -31,14 +37,16 @@ const FunctionsList = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <a href="/fn/{%s fn.Name %}">fn.Name</a>
-            </td>
-            <td>image</td>
-            <td>No</td>
-            <td>fn.CreatedTimestamp</td>
-          </tr>
+          {functions.map(f => (
+            <tr>
+              <td>
+                <Link to={`/fn/${f.name}`}>{f.name}</Link>
+              </td>
+              <td>{f.image}</td>
+              <td>{f.skip_logging ? 'No' : 'Yes'}</td>
+              <td>{f.created_time}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
       {loading && (
