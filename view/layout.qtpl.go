@@ -51,7 +51,7 @@ func StreamLayout(qw422016 *qt422016.Writer, title string, content string) {
 	qw422016.N().S(`
       <script src="/js/uikit.min.js"></script>
       <script src="/js/uikit-icons.min.js"></script>
-      <script src="/js/index.js"></script>
+      <script src="/js/app/index.js"></script>
     </body>
   </html>
 `)
