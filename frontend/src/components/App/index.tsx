@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import FunctionDetails from '../FunctionDetails';
 import FunctionsList from '../FunctionsList';
 import Home from '../Home';
 
@@ -20,6 +21,7 @@ const App = () => (
     <Routes>
       <Route index element={<Home />} />
       <Route path="/functions" element={<FunctionsList />} />
+      <Route path="/fn/:name" element={<FunctionDetails />} />
     </Routes>
   </div>
 );
