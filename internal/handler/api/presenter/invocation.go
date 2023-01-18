@@ -6,6 +6,7 @@ import "github.com/sparkymat/fundock/model"
 type Invocation struct {
 	ID           string  `json:"id"`
 	FunctionName string  `json:"function_name"`
+	ClientName   string  `json:"client_name"`
 	StartedTime  *string `json:"started_time"`
 	EndedTime    *string `json:"ended_time"`
 	Input        *string `json:"input"`
@@ -23,6 +24,7 @@ func InvocationFromModel(inv model.Invocation) Invocation {
 	presentedInv := Invocation{
 		ID:           inv.ID,
 		FunctionName: inv.FunctionName,
+		ClientName:   inv.ClientName,
 	}
 
 	if inv.StartedAt != nil {

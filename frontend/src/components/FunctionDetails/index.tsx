@@ -1,50 +1,108 @@
 import { findNonSerializableValue } from '@reduxjs/toolkit';
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import fetchFunctionDetails from '../../features/FunctionDetails/fetchFunctionDetails';
+import {
+  selectFunction,
+  selectFunctionDetailsLoading,
+} from '../../features/FunctionDetails/selects';
+import {
+  selectInvocations,
+  selectInvocationsListLoading,
+} from '../../features/InvocationsList/selects';
+import { AppDispatch } from '../../store';
 
 const FunctionDetails = () => {
   const { name } = useParams();
-  
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchFunctionDetails(name || ''));
+  }, []);
+
+  const fn = useSelector(selectFunction);
+  const invocations = useSelector(selectInvocations);
+
+  const loading = useSelector(selectFunctionDetailsLoading);
+  const invocationsLoading = useSelector(selectInvocationsListLoading);
+
+  const csrfToken = '';
+
   return (
     <div className="uk-padding uk-flex uk-flex-column">
-    <h1>{ fn.name }</h1>
-    <p className="uk-margin-small">
-      <span uk-icon="info"></span>
-      { fn.image }
-    </p>
-    { fn.skip_logging &&      <p>Input and output is not logged</p> }
-    { !fn.skip_logging &&      <p>Input and output is logged</p> }
-    <div>
-      <button className="uk-button uk-button-default">Disable</button>
+      {fn && (
+        <>
+          <h1>{fn.name}</h1>
+          <p className="uk-margin-small">
+            <span uk-icon="info"></span>
+            {fn.image}
+          </p>
+          {fn.skip_logging && <p>Input and output is not logged</p>}
+          {!fn.skip_logging && <p>Input and output is logged</p>}
+          <div>
+            <button className="uk-button uk-button-default">Disable</button>
+          </div>
+          <div className="uk-margin-top uk-width-1-1 uk-width-1-2@m">
+            <input type="hidden" name="csrf" value={csrfToken} />
+            <textarea
+              className="uk-width-1-1 uk-textarea"
+              rows={8}
+              name="input"
+            >
+              {}
+            </textarea>
+            <input
+              type="submit"
+              className="uk-button uk-button-primary uk-margin-small-top"
+              value="Run"
+            />
+          </div>
+          <h3>Invocations</h3>
+          <table className="uk-table uk-table-striped">
+            <thead>
+              <th>ID</th>
+              <th>Client</th>
+              <th>Status</th>
+              <th>Timestamp</th>
+              <th>Duration</th>
+            </thead>
+            <tbody>
+              {invocations.map(inv => (
+                <tr>
+                  <td>
+                    <Link to={`/invocations/${inv.id}`}>{inv.id}</Link>
+                  </td>
+                  <td>inv.client_name</td>
+                  <td>inv.status</td>
+                  <td>inv.started_time</td>
+                  <td>inv.ended_time</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {invocationsLoading && (
+            <>
+              <div className="uk-overlay-default uk-position-cover"></div>
+              <div
+                className="uk-overlay uk-position-center uk-dark"
+                uk-spinner="ratio: 3"
+              ></div>
+            </>
+          )}
+        </>
+      )}
+      {loading && (
+        <>
+          <div className="uk-overlay-default uk-position-cover"></div>
+          <div
+            className="uk-overlay uk-position-center uk-dark"
+            uk-spinner="ratio: 3"
+          ></div>
+        </>
+      )}
     </div>
-    <div className="uk-margin-top uk-width-1-1 uk-width-1-2@m">
-      <form action="/exec/{%s fn.Name %}" method="POST">
-        <input type="hidden" name="csrf" value="{%s csrfToken %}" />
-        <textarea className="uk-width-1-1 uk-textarea" rows="8" name="input">{}</textarea>
-        <input type="submit" className="uk-button uk-button-primary uk-margin-small-top" value="Run" />
-      </form>
-    </div>
-    <h3>Invocations</h3>
-    <table className="uk-table uk-table-striped">
-      <thead>
-        <th>ID</th>
-        <th>Client</th>
-        <th>Status</th>
-        <th>Timestamp</th>
-        <th>Duration</th>
-      </thead>
-      <tbody>
-          <tr>
-            <td><a href="/invocations/{%s in.ID %}">{ in.ID }</a></td>
-            <td>{ in.ClientName %}</td>
-            <td>{ in.Status %}</td>
-            <td>{ in.Timestamp %}</td>
-            <td>{ in.Duration %}</td>
-          </tr>
-      </tbody>
-    </table>
-  </div>
-
   );
 };
 

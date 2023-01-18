@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import functionsListReducer from '../features/FunctionsList/slice';
+import functionDetailsReducer from '../features/FunctionDetails/slice';
+import invocationsListReducer from '../features/InvocationsList/slice';
 
 export const store = configureStore({
   reducer: {
     functionsList: functionsListReducer,
+    functionDetails: functionDetailsReducer,
+    invocationsList: invocationsListReducer,
   },
 });
 
