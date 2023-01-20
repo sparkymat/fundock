@@ -7,10 +7,12 @@ import {
   selectFunction,
   selectFunctionDetailsLoading,
 } from '../../features/FunctionDetails/selects';
+import fetchInvocations from '../../features/InvocationsList/fetchInvocations';
 import {
   selectInvocations,
   selectInvocationsListLoading,
 } from '../../features/InvocationsList/selects';
+import Invocation from '../../models/Invocation';
 import { AppDispatch } from '../../store';
 
 const FunctionDetails = () => {
@@ -20,6 +22,13 @@ const FunctionDetails = () => {
 
   useEffect(() => {
     dispatch(fetchFunctionDetails(name || ''));
+    dispatch(
+      fetchInvocations({
+        fn: name || '',
+        page_number: 1,
+        page_size: 20,
+      }),
+    );
   }, []);
 
   const fn = useSelector(selectFunction);
@@ -36,7 +45,7 @@ const FunctionDetails = () => {
         <>
           <h1>{fn.name}</h1>
           <p className="uk-margin-small">
-            <span uk-icon="info"></span>
+            <span uk-icon="info" />
             {fn.image}
           </p>
           {fn.skip_logging && <p>Input and output is not logged</p>}
@@ -69,26 +78,27 @@ const FunctionDetails = () => {
               <th>Duration</th>
             </thead>
             <tbody>
-              {invocations.map(inv => (
-                <tr>
-                  <td>
-                    <Link to={`/invocations/${inv.id}`}>{inv.id}</Link>
-                  </td>
-                  <td>inv.client_name</td>
-                  <td>inv.status</td>
-                  <td>inv.started_time</td>
-                  <td>inv.ended_time</td>
-                </tr>
-              ))}
+              {invocations &&
+                invocations.map((inv: Invocation) => (
+                  <tr>
+                    <td>
+                      <Link to={`/invocations/${inv.id}`}>{inv.id}</Link>
+                    </td>
+                    <td>{inv.client_name}</td>
+                    <td>{inv.status}</td>
+                    <td>{inv.started_time}</td>
+                    <td>{inv.ended_time}</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
           {invocationsLoading && (
             <>
-              <div className="uk-overlay-default uk-position-cover"></div>
+              <div className="uk-overlay-default uk-position-cover" />
               <div
                 className="uk-overlay uk-position-center uk-dark"
                 uk-spinner="ratio: 3"
-              ></div>
+              />
             </>
           )}
         </>

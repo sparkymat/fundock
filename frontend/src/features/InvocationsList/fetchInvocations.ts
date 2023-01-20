@@ -21,7 +21,7 @@ export interface ErrorResponse {
 const fetchInvocations = createAsyncThunk<
   FetchInvocationsResponse | ErrorResponse,
   FetchInvocationsRequest
->('features/fetchFunctions', async (request: FetchInvocationsRequest) => {
+>('features/fetchInvocationsList', async (request: FetchInvocationsRequest) => {
   let url = `/api/invocations?page_size=${request.page_size}&page_number=${request.page_number}`;
   if (request.fn) {
     url += `&fn=${request.fn}`;
@@ -30,8 +30,9 @@ const fetchInvocations = createAsyncThunk<
     const response = await axios.get(url);
     return response.data as FetchInvocationsResponse;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
-    return { error: error };
+    return { error };
   }
 });
 

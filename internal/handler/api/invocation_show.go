@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/sparkymat/fundock/config/configiface"
 	"github.com/sparkymat/fundock/database/dbiface"
-	"github.com/sparkymat/fundock/presenter"
+	"github.com/sparkymat/fundock/internal/handler/api/presenter"
 )
 
 func InvocationShow(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {

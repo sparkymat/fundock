@@ -1,35 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
 import Invocation from '../../models/Invocation';
-import fetchInvocations, {
-  ErrorResponse,
-  FetchInvocationsResponse,
-} from './fetchInvocations';
+import fetchInvocation, { ErrorResponse } from './fetchInvocation';
 
-interface InvocationsListState {
-  invocations: Invocation[];
+interface InvocationDetailsState {
+  invocation?: Invocation;
   errorMessage: string;
   showError?: boolean;
   loading?: boolean;
 }
 
-const initialState: InvocationsListState = {
-  invocations: [],
+const initialState: InvocationDetailsState = {
   errorMessage: '',
 };
 
 const slice = createSlice({
-  name: 'invocationsList',
+  name: 'invocationDetails',
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchInvocations.pending, state => {
+    builder.addCase(fetchInvocation.pending, state => {
       state.loading = true;
     });
-    builder.addCase(fetchInvocations.fulfilled, (state, action) => {
+    builder.addCase(fetchInvocation.fulfilled, (state, action) => {
       state.loading = false;
-      state.invocations = (action.payload as FetchInvocationsResponse).items;
+      state.invocation = action.payload as Invocation;
     });
-    builder.addCase(fetchInvocations.rejected, (state, action) => {
+    builder.addCase(fetchInvocation.rejected, (state, action) => {
       state.loading = false;
       state.showError = true;
       state.errorMessage = (action.payload as ErrorResponse).error;

@@ -1,8 +1,10 @@
+/* eslint-disable react/no-unknown-property */
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import FunctionDetails from '../FunctionDetails';
 import FunctionsList from '../FunctionsList';
 import Home from '../Home';
+import InvocationDetails from '../InvocationDetails';
 
 const App = () => (
   <div>
@@ -22,6 +24,7 @@ const App = () => (
       <Route index element={<Home />} />
       <Route path="/functions" element={<FunctionsList />} />
       <Route path="/fn/:name" element={<FunctionDetails />} />
+      <Route path="/invocations/:id" element={<InvocationDetails />} />
     </Routes>
   </div>
 );

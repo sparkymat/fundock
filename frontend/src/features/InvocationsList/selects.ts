@@ -1,4 +1,3 @@
-import Fn from '../../models/Fn';
 import Invocation from '../../models/Invocation';
 import { RootState } from '../../store';
 
