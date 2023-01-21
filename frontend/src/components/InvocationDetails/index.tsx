@@ -23,7 +23,7 @@ const FunctionDetails = () => {
 
   return (
     <div className="uk-padding uk-flex uk-flex-column">
-      {loading && inv && (
+      {!loading && inv && (
         <>
           <h3>{inv.id}</h3>
           <table className="uk-table uk-table-striped uk-width-1-1">
