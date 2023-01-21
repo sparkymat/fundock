@@ -1,4 +1,4 @@
-import { findNonSerializableValue } from '@reduxjs/toolkit';
+/* eslint-disable react/no-unknown-property */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -51,7 +51,9 @@ const FunctionDetails = () => {
           {fn.skip_logging && <p>Input and output is not logged</p>}
           {!fn.skip_logging && <p>Input and output is logged</p>}
           <div>
-            <button className="uk-button uk-button-default">Disable</button>
+            <button type="button" className="uk-button uk-button-default">
+              Disable
+            </button>
           </div>
           <div className="uk-margin-top uk-width-1-1 uk-width-1-2@m">
             <input type="hidden" name="csrf" value={csrfToken} />
@@ -85,7 +87,7 @@ const FunctionDetails = () => {
                       <Link to={`/invocations/${inv.id}`}>{inv.id}</Link>
                     </td>
                     <td>{inv.client_name}</td>
-                    <td>{inv.status}</td>
+                    <td>n/a</td>
                     <td>{inv.started_time}</td>
                     <td>{inv.ended_time}</td>
                   </tr>
@@ -105,11 +107,11 @@ const FunctionDetails = () => {
       )}
       {loading && (
         <>
-          <div className="uk-overlay-default uk-position-cover"></div>
+          <div className="uk-overlay-default uk-position-cover" />
           <div
             className="uk-overlay uk-position-center uk-dark"
             uk-spinner="ratio: 3"
-          ></div>
+          />
         </>
       )}
     </div>

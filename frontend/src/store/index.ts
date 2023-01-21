@@ -3,6 +3,7 @@ import functionsListReducer from '../features/FunctionsList/slice';
 import functionDetailsReducer from '../features/FunctionDetails/slice';
 import invocationsListReducer from '../features/InvocationsList/slice';
 import invocationDetailsReducer from '../features/InvocationsDetails/slice';
+import functionFormReducer from '../features/FunctionForm/slice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     functionDetails: functionDetailsReducer,
     invocationsList: invocationsListReducer,
     invocationDetails: invocationDetailsReducer,
+    functionForm: functionFormReducer,
   },
 });
 

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import FunctionDetails from '../FunctionDetails';
+import FunctionForm from '../FunctionForm';
 import FunctionsList from '../FunctionsList';
 import Home from '../Home';
 import InvocationDetails from '../InvocationDetails';
@@ -25,6 +26,7 @@ const App = () => (
       <Route path="/functions" element={<FunctionsList />} />
       <Route path="/fn/:name" element={<FunctionDetails />} />
       <Route path="/invocations/:id" element={<InvocationDetails />} />
+      <Route path="/functions/new" element={<FunctionForm />} />
     </Routes>
   </div>
 );
