@@ -2,6 +2,8 @@
 import React, { ChangeEvent, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+import AceEditor from 'react-ace';
+
 import fetchFunctionDetails from '../../features/FunctionDetails/fetchFunctionDetails';
 import {
   selectFunction,
@@ -40,12 +42,9 @@ const FunctionDetails = () => {
   const loading = useSelector(selectFunctionDetailsLoading);
   const invocationsLoading = useSelector(selectInvocationsListLoading);
 
-  const requestBodyUpdated = useCallback(
-    (evt: ChangeEvent<HTMLTextAreaElement>) => {
-      dispatch(setRequestBody(evt.target.value));
-    },
-    [],
-  );
+  const requestBodyUpdated = useCallback((value: string) => {
+    dispatch(setRequestBody(value));
+  }, []);
 
   return (
     <div className="uk-padding uk-flex uk-flex-column">
@@ -64,13 +63,18 @@ const FunctionDetails = () => {
             </button>
           </div>
           <div className="uk-margin-top uk-width-1-1 uk-width-1-2@m">
-            <textarea
-              className="uk-width-1-1 uk-textarea"
-              rows={8}
-              name="input"
+            <AceEditor
+              mode="json"
+              theme="solarized_dark"
               value={requestBody}
               onChange={requestBodyUpdated}
-            ></textarea>
+              minLines={16}
+              maxLines={16}
+              width="100%"
+              fontSize="1.1rem"
+              showGutter={false}
+              editorProps={{ $blockScrolling: true }}
+            />
             <input
               type="submit"
               className="uk-button uk-button-primary uk-margin-small-top"

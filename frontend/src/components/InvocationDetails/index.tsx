@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+import AceEditor from 'react-ace';
 import fetchInvocation from '../../features/InvocationsDetails/fetchInvocation';
 import {
   selectInvocation,
@@ -50,10 +51,38 @@ const FunctionDetails = () => {
             </tbody>
           </table>
           <h3>Input</h3>
-          {inv.input && <pre>{inv.input}</pre>}
+          {inv.input && (
+            <div className="uk-width-1-1 uk-width-1-2@m">
+              <AceEditor
+                mode="json"
+                theme="solarized_dark"
+                value={inv.input}
+                minLines={16}
+                maxLines={16}
+                width="100%"
+                fontSize="1.1rem"
+                readOnly
+                showGutter={false}
+                editorProps={{ $blockScrolling: true }}
+              />
+            </div>
+          )}
           {!inv && <p>No input</p>}
           <h3>Output</h3>
-          {inv.output && <pre>{inv.output}</pre>}
+          {inv.output && (
+            <div className="uk-width-1-1 uk-width-1-2@m">
+              <AceEditor
+                mode="json"
+                theme="solarized_dark"
+                value={inv.output}
+                width="100%"
+                fontSize="1.1rem"
+                readOnly
+                showGutter={false}
+                editorProps={{ $blockScrolling: true }}
+              />
+            </div>
+          )}
           {!inv.output && <p>No output</p>}
         </>
       )}
