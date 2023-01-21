@@ -1,12 +1,14 @@
 /* eslint-disable react/no-unknown-property */
-import React, { useEffect } from 'react';
+import React, { ChangeEvent, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import fetchFunctionDetails from '../../features/FunctionDetails/fetchFunctionDetails';
 import {
   selectFunction,
   selectFunctionDetailsLoading,
+  selectRequestBody,
 } from '../../features/FunctionDetails/selects';
+import { setRequestBody } from '../../features/FunctionDetails/slice';
 import fetchInvocations from '../../features/InvocationsList/fetchInvocations';
 import {
   selectInvocations,
@@ -33,11 +35,17 @@ const FunctionDetails = () => {
 
   const fn = useSelector(selectFunction);
   const invocations = useSelector(selectInvocations);
+  const requestBody = useSelector(selectRequestBody);
 
   const loading = useSelector(selectFunctionDetailsLoading);
   const invocationsLoading = useSelector(selectInvocationsListLoading);
 
-  const csrfToken = '';
+  const requestBodyUpdated = useCallback(
+    (evt: ChangeEvent<HTMLTextAreaElement>) => {
+      dispatch(setRequestBody(evt.target.value));
+    },
+    [],
+  );
 
   return (
     <div className="uk-padding uk-flex uk-flex-column">
@@ -56,14 +64,13 @@ const FunctionDetails = () => {
             </button>
           </div>
           <div className="uk-margin-top uk-width-1-1 uk-width-1-2@m">
-            <input type="hidden" name="csrf" value={csrfToken} />
             <textarea
               className="uk-width-1-1 uk-textarea"
               rows={8}
               name="input"
-            >
-              {}
-            </textarea>
+              value={requestBody}
+              onChange={requestBodyUpdated}
+            ></textarea>
             <input
               type="submit"
               className="uk-button uk-button-primary uk-margin-small-top"

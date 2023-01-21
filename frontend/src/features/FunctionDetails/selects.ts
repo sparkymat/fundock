@@ -6,3 +6,6 @@ export const selectFunctionDetailsLoading = (state: RootState): boolean =>
 
 export const selectFunction = (state: RootState): Fn | undefined =>
   state.functionDetails.function;
+
+export const selectRequestBody = (state: RootState): string =>
+  state.functionDetails.requestBody;

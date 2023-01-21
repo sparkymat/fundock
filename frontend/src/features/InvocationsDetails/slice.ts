@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Invocation from '../../models/Invocation';
 import fetchInvocation, { ErrorResponse } from './fetchInvocation';
 

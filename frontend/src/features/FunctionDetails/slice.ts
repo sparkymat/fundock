@@ -8,16 +8,22 @@ interface FunctionDetailsState {
   errorMessage: string;
   showError?: boolean;
   loading?: boolean;
+  requestBody: string;
 }
 
 const initialState: FunctionDetailsState = {
   errorMessage: '',
+  requestBody: '{}',
 };
 
 const slice = createSlice({
   name: 'functionDetails',
   initialState,
-  reducers: {},
+  reducers: {
+    setRequestBody: (state, action: PayloadAction<string>) => {
+      state.requestBody = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(fetchFunctionDetails.pending, (state, action) => {
       state.loading = true;
@@ -33,5 +39,7 @@ const slice = createSlice({
     });
   },
 });
+
+export const { setRequestBody } = slice.actions;
 
 export default slice.reducer;
