@@ -7,6 +7,7 @@ type Function struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
 	Image       string `json:"image"`
+	SkipLogging bool   `json:"skip_logging"`
 	CreatedTime string `json:"created_time"`
 }
 
@@ -22,6 +23,7 @@ func FunctionFromModel(fn model.Function) Function {
 		ID:          fn.ID,
 		Name:        fn.Name,
 		Image:       fn.Name,
+		SkipLogging: fn.SkipLogging,
 		CreatedTime: fn.CreatedAt.String(),
 	}
 }
