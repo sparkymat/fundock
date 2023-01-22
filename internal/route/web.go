@@ -8,11 +8,10 @@ import (
 	"github.com/sparkymat/fundock/auth"
 	"github.com/sparkymat/fundock/config/configiface"
 	"github.com/sparkymat/fundock/database/dbiface"
-	"github.com/sparkymat/fundock/docker/dockeriface"
 	"github.com/sparkymat/fundock/internal/handler"
 )
 
-func setupWebRoutes(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) {
+func setupWebRoutes(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI) {
 	webApp := e.Group("")
 
 	webApp.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
@@ -35,12 +34,4 @@ func setupWebRoutes(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, d
 	authenticatedWebApp.Use(auth.TokenOrSessionAuthMiddleware(cfg, db))
 
 	authenticatedWebApp.GET("/", handler.Home(cfg, db))
-	authenticatedWebApp.GET("/functions", handler.Functions(cfg, db))
-	authenticatedWebApp.GET("/fn/:name", handler.FunctionShow(cfg, db))
-	authenticatedWebApp.POST("/exec/:name", handler.ExecFunction(cfg, db, dockerSvc))
-	authenticatedWebApp.GET("/invocations/:id", handler.InvocationShow(cfg, db))
-	authenticatedWebApp.GET("/functions/new", handler.NewFunction(cfg, db))
-	authenticatedWebApp.POST("/functions", handler.CreateFuncion(cfg, db))
-	authenticatedWebApp.GET("/api_tokens", handler.APITokens(cfg, db))
-	authenticatedWebApp.POST("/api_tokens", handler.CreateAPIToken(cfg, db))
 }

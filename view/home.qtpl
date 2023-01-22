@@ -1,5 +1,3 @@
 {% func Home() %}
-  <div class="uk-padding">
-    <h3>Welcome to fundock!</h3>
-  </div>
+  <div id="fundock-app"></div>
 {% endfunc %}

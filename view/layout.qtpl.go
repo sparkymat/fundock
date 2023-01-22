@@ -35,51 +35,42 @@ func StreamLayout(qw422016 *qt422016.Writer, title string, content string) {
       <link rel="stylesheet" type="text/css" href="/css/style.css">
     </head>
     <body>
-      <nav class="uk-navbar-container" uk-navbar>
-        <div class="uk-navbar-left">
-            <a href="/" class="uk-navbar-item uk-logo uk-margin-small-left">fundock</a>
-            <ul class="uk-navbar-nav">
-                <li class="uk-parent"><a href="/functions">Functions</a></li>
-                <li class="uk-parent"><a href="/api_tokens">API Tokens</a></li>
-            </ul>
-        </div>
-      </nav>
       `)
-//line view/layout.qtpl:21
+//line view/layout.qtpl:12
 	qw422016.N().S(content)
-//line view/layout.qtpl:21
+//line view/layout.qtpl:12
 	qw422016.N().S(`
       <script src="/js/uikit.min.js"></script>
       <script src="/js/uikit-icons.min.js"></script>
-      <script src="/js/index.js"></script>
+      <script src="/js/app/index.js"></script>
     </body>
   </html>
 `)
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 }
 
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 func WriteLayout(qq422016 qtio422016.Writer, title string, content string) {
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 	qw422016 := qt422016.AcquireWriter(qq422016)
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 	StreamLayout(qw422016, title, content)
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 	qt422016.ReleaseWriter(qw422016)
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 }
 
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 func Layout(title string, content string) string {
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 	qb422016 := qt422016.AcquireByteBuffer()
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 	WriteLayout(qb422016, title, content)
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 	qs422016 := string(qb422016.B)
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 	qt422016.ReleaseByteBuffer(qb422016)
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 	return qs422016
-//line view/layout.qtpl:27
+//line view/layout.qtpl:18
 }

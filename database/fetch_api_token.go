@@ -22,3 +22,19 @@ WHERE t.token = $1
 
 	return &apiToken, nil
 }
+
+func (s *Service) FetchAPITokenByID(ctx context.Context, id string) (*model.APIToken, error) {
+	sqlString := `SELECT
+	t.*
+FROM api_tokens t
+WHERE t.id = $1
+`
+
+	var apiToken model.APIToken
+
+	if err := s.conn.QueryRowxContext(ctx, sqlString, id).StructScan(&apiToken); err != nil {
+		return nil, fmt.Errorf("failed to query for api token. err: %w", err)
+	}
+
+	return &apiToken, nil
+}
