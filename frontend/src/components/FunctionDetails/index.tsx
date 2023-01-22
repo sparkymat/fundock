@@ -3,14 +3,20 @@ import React, { ChangeEvent, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import AceEditor from 'react-ace';
+import ReactModal from 'react-modal';
 
 import fetchFunctionDetails from '../../features/FunctionDetails/fetchFunctionDetails';
 import {
   selectFunction,
   selectFunctionDetailsLoading,
+  selectInvocation,
   selectRequestBody,
+  selectShowInvocationOutput,
 } from '../../features/FunctionDetails/selects';
-import { setRequestBody } from '../../features/FunctionDetails/slice';
+import {
+  dismissInvocationOutput,
+  setRequestBody,
+} from '../../features/FunctionDetails/slice';
 import fetchInvocations from '../../features/InvocationsList/fetchInvocations';
 import {
   selectInvocations,
@@ -18,6 +24,7 @@ import {
 } from '../../features/InvocationsList/selects';
 import Invocation from '../../models/Invocation';
 import { AppDispatch } from '../../store';
+import runFunction from '../../features/FunctionDetails/runFunction';
 
 const FunctionDetails = () => {
   const { name } = useParams();
@@ -42,9 +49,36 @@ const FunctionDetails = () => {
   const loading = useSelector(selectFunctionDetailsLoading);
   const invocationsLoading = useSelector(selectInvocationsListLoading);
 
-  const requestBodyUpdated = useCallback((value: string) => {
-    dispatch(setRequestBody(value));
+  const invocation = useSelector(selectInvocation);
+  const showInvocationOutput = useSelector(selectShowInvocationOutput);
+
+  const requestBodyUpdated = useCallback(
+    (value: string) => {
+      dispatch(setRequestBody(value));
+    },
+    [dispatch],
+  );
+
+  const functionExecuted = useCallback(() => {
+    dispatch(runFunction({ fn: fn?.name || '', requestBody }));
+  }, [dispatch, fn, requestBody]);
+
+  const invocationModalDismissed = useCallback(() => {
+    dispatch(dismissInvocationOutput());
   }, []);
+
+  const customStyles = {
+    content: {
+      minWidth: '50%',
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      padding: 0,
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
 
   return (
     <div className="uk-padding uk-flex uk-flex-column">
@@ -75,11 +109,13 @@ const FunctionDetails = () => {
               showGutter={false}
               editorProps={{ $blockScrolling: true }}
             />
-            <input
-              type="submit"
+            <button
+              type="button"
               className="uk-button uk-button-primary uk-margin-small-top"
-              value="Run"
-            />
+              onClick={functionExecuted}
+            >
+              Run
+            </button>
           </div>
           <h3>Invocations</h3>
           <table className="uk-table uk-table-striped">
@@ -124,6 +160,31 @@ const FunctionDetails = () => {
             uk-spinner="ratio: 3"
           />
         </>
+      )}
+      {invocation && (
+        <ReactModal isOpen={showInvocationOutput} style={customStyles}>
+          <div className="uk-card uk-card-default uk-card-body uk-width-1-1">
+            <h3 className="uk-card-title">{invocation.id}</h3>
+            <div className="uk-width-1-1">
+              <AceEditor
+                mode="json"
+                theme="solarized_dark"
+                value={invocation.output}
+                width="100%"
+                fontSize="1.1rem"
+                readOnly
+                showGutter={false}
+                editorProps={{ $blockScrolling: true }}
+              />
+            </div>
+            <button
+              className="uk-button uk-button-primary uk-margin-top uk-align-right"
+              onClick={invocationModalDismissed}
+            >
+              Close Modal
+            </button>
+          </div>
+        </ReactModal>
       )}
     </div>
   );
