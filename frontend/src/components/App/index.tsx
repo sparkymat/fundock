@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import ApiTokensList from '../ApiTokensList';
 import FunctionDetails from '../FunctionDetails';
 import FunctionForm from '../FunctionForm';
 import FunctionsList from '../FunctionsList';
@@ -18,6 +19,9 @@ const App = () => (
           <li className="uk-parent">
             <Link to="/functions">Functions</Link>
           </li>
+          <li className="uk-parent">
+            <Link to="/api_tokens">API Tokens</Link>
+          </li>
         </ul>
       </div>
     </nav>
@@ -27,6 +31,7 @@ const App = () => (
       <Route path="/fn/:name" element={<FunctionDetails />} />
       <Route path="/invocations/:id" element={<InvocationDetails />} />
       <Route path="/functions/new" element={<FunctionForm />} />
+      <Route path="/api_tokens" element={<ApiTokensList />} />
     </Routes>
   </div>
 );

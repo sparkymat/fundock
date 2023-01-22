@@ -23,6 +23,7 @@ type DBAPI interface {
 	CreateAPIToken(ctx context.Context, clientName string, token string) (*string, error)
 	DeleteAPIToken(ctx context.Context, id string) error
 	FetchAPIToken(ctx context.Context, tokenString string) (*model.APIToken, error)
+	FetchAPITokenByID(ctx context.Context, tokenString string) (*model.APIToken, error)
 	FetchUser(ctx context.Context, username string) (*model.User, error)
 	CreateUser(ctx context.Context, username string, encryptedPassword string, email *string, name *string) (*string, error)
 	FetchInvocations(ctx context.Context, pageNumber uint32, pageSize uint32) ([]model.Invocation, error)
