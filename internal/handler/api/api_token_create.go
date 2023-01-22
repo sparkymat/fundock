@@ -12,7 +12,7 @@ import (
 )
 
 type APITokenCreateInput struct {
-	ClientName string `json:"client_name"`
+	ClientName string `json:"client_name"` //nolint:tagliatelle
 }
 
 func APITokenCreate(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc {
@@ -23,6 +23,7 @@ func APITokenCreate(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc 
 		}
 
 		token := strings.ToLower(ulid.Make().String())
+
 		id, err := db.CreateAPIToken(c.Request().Context(), input.ClientName, token)
 		if err != nil {
 			c.Logger().Errorf("db.CreateAPIToken failed with err: %v", err)

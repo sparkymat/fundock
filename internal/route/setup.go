@@ -43,6 +43,6 @@ func Setup(e *echo.Echo, cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc 
 
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte(cfg.SessionSecret()))))
 
-	setupWebRoutes(e, cfg, db, dockerSvc)
+	setupWebRoutes(e, cfg, db)
 	setupAPIRoutes(e, cfg, db, dockerSvc)
 }

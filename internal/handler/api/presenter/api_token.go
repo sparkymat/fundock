@@ -2,6 +2,7 @@ package presenter
 
 import "github.com/sparkymat/fundock/model"
 
+//nolint:tagliatelle
 type APIToken struct {
 	ID           string  `json:"id"`
 	ClientName   string  `json:"client_name"`
@@ -9,6 +10,7 @@ type APIToken struct {
 	LastUsedTime *string `json:"last_used_time"`
 }
 
+//nolint:tagliatelle
 type APITokensList struct {
 	PageNumber uint32     `json:"page_number"`
 	PageSize   uint32     `json:"page_size"`
