@@ -25,6 +25,7 @@ import {
 import Invocation from '../../models/Invocation';
 import { AppDispatch } from '../../store';
 import runFunction from '../../features/FunctionDetails/runFunction';
+import { freezeDraftable } from '@reduxjs/toolkit/dist/utils';
 
 const FunctionDetails = () => {
   const { name } = useParams();
@@ -85,10 +86,44 @@ const FunctionDetails = () => {
       {fn && (
         <>
           <h1>{fn.name}</h1>
-          <p className="uk-margin-small">
-            <span uk-icon="info" />
+          <p className="uk-margin-small-top uk-margin-small-bottom">
+            <span uk-icon="info" className="uk-margin-small-right" />
             {fn.image}
           </p>
+          <h3 className="uk-margin-small-top uk-margin-small-bottom">
+            Environment
+          </h3>
+          <table className="uk-table uk-table-striped uk-width-1-1 uk-width-1-2@m uk-width-1-3@l">
+            <thead>
+              <th>Key</th>
+              <th>Value</th>
+            </thead>
+            <tbody>
+              {Object.keys(fn.environment).map(k => (
+                <tr>
+                  <td>{k}</td>
+                  <td>{fn.environment[k]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <h3 className="uk-margin-small-top uk-margin-small-bottom">
+            Secrets
+          </h3>
+          <table className="uk-table uk-table-striped uk-width-1-1 uk-width-1-2@m uk-width-1-3@l">
+            <thead>
+              <th>Key</th>
+              <th>Value</th>
+            </thead>
+            <tbody>
+              {fn.secrets.map(k => (
+                <tr>
+                  <td>{k}</td>
+                  <td>****</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           {fn.skip_logging && <p>Input and output is not logged</p>}
           {!fn.skip_logging && <p>Input and output is logged</p>}
           <div>

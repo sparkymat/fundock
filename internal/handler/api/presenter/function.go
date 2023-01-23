@@ -24,7 +24,7 @@ func FunctionFromModel(fn model.Function) Function {
 	presentedFn := Function{
 		ID:          fn.ID,
 		Name:        fn.Name,
-		Image:       fn.Name,
+		Image:       fn.Image,
 		SkipLogging: fn.SkipLogging,
 		CreatedTime: fn.CreatedAt.String(),
 		Secrets:     []string{},
