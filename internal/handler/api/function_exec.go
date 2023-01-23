@@ -14,6 +14,7 @@ import (
 	"github.com/sparkymat/fundock/services/runner"
 )
 
+//nolint:funlen
 func FunctionExec(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		clientName, _ := c.Get(auth.ClientNameKey).(string)

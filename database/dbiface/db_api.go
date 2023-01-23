@@ -18,7 +18,7 @@ type DBAPI interface {
 	UpdateInvocationFailed(ctx context.Context, id string, endedAt time.Time, errorMessage *string) error
 	FetchFunctionInvocations(ctx context.Context, functionID string, pageNumber uint32, pageSize uint32) ([]model.Invocation, error)
 	FetchInvocation(ctx context.Context, id string) (*model.Invocation, error)
-	CreateFunction(ctx context.Context, name string, image string, skipLogging bool) (*string, error)
+	CreateFunction(ctx context.Context, name string, image string, skipLogging bool, environment map[string]string, secrets map[string]string) (*string, error)
 	FetchAPITokens(ctx context.Context, pageNumber uint32, pageSize uint32) ([]model.APIToken, error)
 	CreateAPIToken(ctx context.Context, clientName string, token string) (*string, error)
 	DeleteAPIToken(ctx context.Context, id string) error
