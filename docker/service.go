@@ -20,7 +20,7 @@ type Service struct {
 	client *dockerlib.Client
 }
 
-func (s *Service) Run(ctx context.Context, image string, input string) (string, error) {
+func (s *Service) Run(ctx context.Context, image string, input string, environment map[string]string, secrets map[string]string) (string, error) {
 	found, err := s.imageExists(ctx, image)
 	if err != nil || !found {
 		err = s.pullImage(ctx, image)
@@ -29,7 +29,7 @@ func (s *Service) Run(ctx context.Context, image string, input string) (string, 
 		}
 	}
 
-	containerID, err := s.createContainer(ctx, image)
+	containerID, err := s.createContainer(ctx, image, environment, secrets)
 	if err != nil {
 		return "", err
 	}

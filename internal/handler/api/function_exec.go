@@ -51,7 +51,27 @@ func FunctionExec(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeri
 			})
 		}
 
-		output, err := functionRunner.ExecFunction(c.Request().Context(), fn, *invocationID, requestBody.String())
+		environment, err := fn.EnvironmentJSON()
+		if err != nil {
+			c.Logger().Warnf("failed to unmarshal environment. err: %w", err)
+
+			//nolint:wrapcheck
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"error": "failed to unmarshal environment",
+			})
+		}
+
+		secrets, err := fn.SecretsJSON()
+		if err != nil {
+			c.Logger().Warnf("failed to unmarshal secrets. err: %w", err)
+
+			//nolint:wrapcheck
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"error": "failed to unmarshal secrets",
+			})
+		}
+
+		output, err := functionRunner.ExecFunction(c.Request().Context(), fn, *invocationID, requestBody.String(), environment, secrets)
 		if err != nil {
 			//nolint:wrapcheck
 			return c.JSON(http.StatusInternalServerError, map[string]any{
