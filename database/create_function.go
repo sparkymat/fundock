@@ -15,7 +15,7 @@ func (s *Service) CreateFunction(
 	secrets map[string]string,
 ) (*string, error) {
 	sqlString := `INSERT INTO functions
-	(name, image, skip_logging)
+	(name, image, skip_logging, environment, secrets)
 	VALUES
 	($1, $2, $3, $4, $5)
 	RETURNING id

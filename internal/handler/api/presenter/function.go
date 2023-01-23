@@ -27,11 +27,12 @@ func FunctionFromModel(fn model.Function) Function {
 		Image:       fn.Image,
 		SkipLogging: fn.SkipLogging,
 		CreatedTime: fn.CreatedAt.String(),
+		Environment: map[string]string{},
 		Secrets:     []string{},
 	}
 
 	environment, err := fn.EnvironmentJSON()
-	if err == nil {
+	if err == nil && environment != nil {
 		presentedFn.Environment = environment
 	}
 

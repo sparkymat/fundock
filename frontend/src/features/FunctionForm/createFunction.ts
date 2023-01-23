@@ -18,7 +18,7 @@ const createFunction = createAsyncThunk<
     const response = await axios.post('/api/functions', {
       name: request.name,
       image: request.image,
-      skip_logging: request.skip_logging ? 'true' : 'false',
+      skip_logging: request.skip_logging,
     });
     request.navigate(`/fn/${request.name}`);
     return response.data as Fn;

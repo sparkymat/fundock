@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -22,7 +23,7 @@ func FunctionCreate(_ configiface.ConfigAPI, db dbiface.DBAPI) echo.HandlerFunc 
 	return func(c echo.Context) error {
 		input := &FunctionCreateInput{}
 		if err := c.Bind(input); err != nil {
-			return renderError(c, http.StatusUnprocessableEntity, "invalid input")
+			return renderError(c, http.StatusUnprocessableEntity, fmt.Sprintf("invalid input. err: %v", err))
 		}
 
 		_, err := db.FetchFunction(c.Request().Context(), input.Name)
