@@ -14,6 +14,7 @@ import (
 	"github.com/sparkymat/fundock/services/runner"
 )
 
+//nolint:funlen
 func FunctionStart(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc dockeriface.DockerAPI) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		clientName, _ := c.Get(auth.ClientNameKey).(string)
@@ -51,8 +52,28 @@ func FunctionStart(cfg configiface.ConfigAPI, db dbiface.DBAPI, dockerSvc docker
 			})
 		}
 
+		environment, err := fn.EnvironmentJSON()
+		if err != nil {
+			c.Logger().Warnf("failed to unmarshal environment. err: %w", err)
+
+			//nolint:wrapcheck
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"error": "failed to unmarshal environment",
+			})
+		}
+
+		secrets, err := fn.SecretsJSON()
+		if err != nil {
+			c.Logger().Warnf("failed to unmarshal secrets. err: %w", err)
+
+			//nolint:wrapcheck
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"error": "failed to unmarshal secrets",
+			})
+		}
+
 		//nolint:errcheck
-		go functionRunner.ExecFunction(c.Request().Context(), fn, *invocationID, requestBody.String())
+		go functionRunner.ExecFunction(c.Request().Context(), fn, *invocationID, requestBody.String(), environment, secrets)
 
 		invocation, err := db.FetchInvocation(c.Request().Context(), *invocationID)
 		if err != nil {

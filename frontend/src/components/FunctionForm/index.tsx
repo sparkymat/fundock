@@ -7,10 +7,18 @@ import {
   selectName,
   selectSkipLogging,
   selectFormProcessing,
+  selectEnvironment,
+  selectSecrets,
 } from '../../features/FunctionForm/selects';
 import {
+  addEnvironmentKey,
+  addSecretsKey,
+  setEnvironmentKey,
+  setEnvironmentValue,
   setImage,
   setName,
+  setSecretsKey,
+  setSecretsValue,
   setSkipLogging,
 } from '../../features/FunctionForm/slice';
 import { AppDispatch } from '../../store';
@@ -19,6 +27,8 @@ const FunctionForm = () => {
   const name = useSelector(selectName);
   const image = useSelector(selectImage);
   const skipLogging = useSelector(selectSkipLogging);
+  const environment = useSelector(selectEnvironment);
+  const secrets = useSelector(selectSecrets);
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -44,6 +54,46 @@ const FunctionForm = () => {
     [dispatch],
   );
 
+  const addEnvironmentVariable = useCallback(() => {
+    dispatch(addEnvironmentKey());
+  }, [dispatch]);
+
+  const environmentKeyChanged = useCallback(
+    (evt: ChangeEvent<HTMLInputElement>) => {
+      const position = parseInt(evt.target.dataset.position || '0');
+      dispatch(setEnvironmentKey({ key: evt.target.value, position }));
+    },
+    [],
+  );
+
+  const environmentValueChanged = useCallback(
+    (evt: ChangeEvent<HTMLInputElement>) => {
+      const position = parseInt(evt.target.dataset.position || '0');
+      dispatch(setEnvironmentValue({ value: evt.target.value, position }));
+    },
+    [],
+  );
+
+  const addSecretsVariable = useCallback(() => {
+    dispatch(addSecretsKey());
+  }, [dispatch]);
+
+  const secretsKeyChanged = useCallback(
+    (evt: ChangeEvent<HTMLInputElement>) => {
+      const position = parseInt(evt.target.dataset.position || '0');
+      dispatch(setSecretsKey({ key: evt.target.value, position }));
+    },
+    [],
+  );
+
+  const secretsValueChanged = useCallback(
+    (evt: ChangeEvent<HTMLInputElement>) => {
+      const position = parseInt(evt.target.dataset.position || '0');
+      dispatch(setSecretsValue({ value: evt.target.value, position }));
+    },
+    [],
+  );
+
   const submitForm = useCallback(() => {
     dispatch(
       createFunction({
@@ -51,9 +101,11 @@ const FunctionForm = () => {
         image,
         skip_logging: skipLogging,
         navigate,
+        environment,
+        secrets,
       }),
     );
-  }, [dispatch, image, name, navigate, skipLogging]);
+  }, [dispatch, image, name, navigate, skipLogging, environment, secrets]);
 
   const formProcessing = useSelector(selectFormProcessing);
 
@@ -99,6 +151,87 @@ const FunctionForm = () => {
             Skip logging?
           </label>
         </div>
+        <h3>Environment</h3>
+        <table className="uk-table uk-table-striped uk-width-1-1 uk-width-1-2@m uk-width-1-3@l">
+          <thead>
+            <th>Key</th>
+            <th>Value</th>
+          </thead>
+          <tbody>
+            {environment.map((kv, i) => (
+              <tr key={`env-row-${i}`}>
+                <td>
+                  <input
+                    type="text"
+                    className="uk-input"
+                    placeholder="Key"
+                    value={kv.key}
+                    data-position={i}
+                    onChange={environmentKeyChanged}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    className="uk-input"
+                    placeholder="Value"
+                    value={kv.value}
+                    data-position={i}
+                    onChange={environmentValueChanged}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button
+          type="button"
+          className={`uk-button uk-button-primary uk-margin-top`}
+          onClick={addEnvironmentVariable}
+        >
+          Add environment variable
+        </button>
+        <h3>Secrets</h3>
+        <table className="uk-table uk-table-striped uk-width-1-1 uk-width-1-2@m uk-width-1-3@l">
+          <thead>
+            <th>Key</th>
+            <th>Value</th>
+          </thead>
+          <tbody>
+            {secrets.map((kv, i) => (
+              <tr key={`secrets-row-${i}`}>
+                <td>
+                  <input
+                    type="text"
+                    className="uk-input"
+                    placeholder="Key"
+                    value={kv.key}
+                    data-position={i}
+                    onChange={secretsKeyChanged}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="password"
+                    className="uk-input"
+                    placeholder="Value"
+                    value={kv.value}
+                    data-position={i}
+                    onChange={secretsValueChanged}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button
+          type="button"
+          className={`uk-button uk-button-primary uk-margin-top`}
+          onClick={addSecretsVariable}
+        >
+          Add secrets variable
+        </button>
+        <p></p>
         <button
           type="button"
           className={`uk-button ${

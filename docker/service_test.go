@@ -15,13 +15,21 @@ func TestDockerRun(t *testing.T) { //nolint:tparallel
 		name           string
 		image          string
 		input          string
+		environment    map[string]string
+		secrets        map[string]string
 		errorExpected  bool
 		expectedOutput string
 	}{
 		{
-			name:          "hello-world returns static output",
-			image:         "docker.io/hello-world:latest",
-			input:         "",
+			name:  "hello-world returns static output",
+			image: "docker.io/hello-world:latest",
+			input: "",
+			environment: map[string]string{
+				"USERNAME": "foo",
+			},
+			secrets: map[string]string{
+				"PASSWORD": "bar",
+			},
 			errorExpected: false,
 			expectedOutput: `
 Hello from Docker!
@@ -55,7 +63,7 @@ For more examples and ideas, visit:
 			svc, err := docker.New()
 			require.NoError(t, err)
 
-			output, err := svc.Run(context.Background(), testCase.image, testCase.input)
+			output, err := svc.Run(context.Background(), testCase.image, testCase.input, testCase.environment, testCase.secrets)
 			if testCase.errorExpected {
 				require.Error(it, err)
 			} else {

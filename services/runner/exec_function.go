@@ -8,7 +8,14 @@ import (
 	"github.com/sparkymat/fundock/model"
 )
 
-func (s *Service) ExecFunction(ctx context.Context, fn *model.Function, invocationID string, input string) (*string, error) {
+func (s *Service) ExecFunction(
+	ctx context.Context,
+	fn *model.Function,
+	invocationID string,
+	input string,
+	environment map[string]string,
+	secrets map[string]string,
+) (*string, error) {
 	executionStartedAt := time.Now()
 
 	// Update invocation starting
@@ -18,7 +25,7 @@ func (s *Service) ExecFunction(ctx context.Context, fn *model.Function, invocati
 	}
 
 	// Run image with input
-	output, err := s.dockerSvc.Run(ctx, fn.Image, input)
+	output, err := s.dockerSvc.Run(ctx, fn.Image, input, environment, secrets)
 	executionEndedAt := time.Now()
 
 	if err != nil {
